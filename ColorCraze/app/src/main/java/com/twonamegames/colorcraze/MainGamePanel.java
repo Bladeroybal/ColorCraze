@@ -42,8 +42,7 @@ public class MainGamePanel extends SurfaceView implements
     int randomizer;
     int score;
     int highscore = 0;
-    int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions
-    boolean startup = true; //load screen
+    int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions, 2 = Score Page, 3 = startup, 4 Color Map, 5 EXIT, 6 Settings
     Context context;
 
 
@@ -105,7 +104,7 @@ public class MainGamePanel extends SurfaceView implements
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d(TAG, "Surface is being destroyed");
 
-//        thread.setRunning(false);
+        titlebuttons = 5;
 //        ((Activity) getContext()).finish();
         // tell the thread to shut down and wait for it to finish
         // this is a clean shutdown
@@ -129,14 +128,14 @@ public class MainGamePanel extends SurfaceView implements
         //50x50 pixels with a gap of 24 pixels
         //That means +-12 from getwidth/2
 
-        int blueleft = getWidth()/2 + 200;   //86
-        int blueright =  getWidth()/2 + 350; //136
-        int yellowright = getWidth()/2+175; //62
+        int blueleft = getWidth()/2 + 225;   //86
+        int blueright =  getWidth()/2 + 425; //136
+        int yellowright = getWidth()/2+200; //62
         int yellowleft = getWidth()/2 + 25; //12
         int redright = getWidth()/2-25; //-12
-        int redleft = getWidth()/2-175; //-62
-        int whiteright = getWidth()/2-200; //-86
-        int whiteleft = getWidth()/2-350; //-136
+        int redleft = getWidth()/2-200; //-62
+        int whiteright = getWidth()/2-225; //-86
+        int whiteleft = getWidth()/2-425; //-136
 
         //------------------
 
@@ -206,10 +205,10 @@ public class MainGamePanel extends SurfaceView implements
                 case MotionEvent.ACTION_DOWN: {
 
                     //Safe Close
-                    if (event.getY() < 200){
-                        thread.setRunning(false);
-                        ((Activity) getContext()).finish();
-                    }
+//                    if (event.getY() < 200){
+//                        thread.setRunning(false);
+//                        ((Activity) getContext()).finish();
+//                    }
 
 
                     //CLICK TO BEGIN GAME
@@ -221,10 +220,6 @@ public class MainGamePanel extends SurfaceView implements
 
                         //Creating the "buttons"
                         button = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.button), getWidth()/2, getHeight()-110);
-//                        whitebutton = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.box_white), 100, getHeight()-100);
-//                        redbutton = new Gate("red", BitmapFactory.decodeResource(getResources(), R.drawable.box_red), 300, getHeight()-100);
-//                        yellowbutton = new Gate("yellow", BitmapFactory.decodeResource(getResources(), R.drawable.box_yellow), getWidth()-300, getHeight()-100);
-//                        bluebutton = new Gate("blue", BitmapFactory.decodeResource(getResources(), R.drawable.box_blue), getWidth()-100, getHeight()-100);
 
                         counter = 1;
 
@@ -237,6 +232,21 @@ public class MainGamePanel extends SurfaceView implements
                         Log.d(TAG, "MAIN TO INSTRUCTIONS");
                     }
 
+                    //Go to Settings
+                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+300) && event.getY() < (getHeight()/2+400)) {
+                        paint.setTextSize(48);
+                        titlebuttons = 6;
+                        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth() - 100, getHeight() - 100);
+                        Log.d(TAG, "MAIN TO INSTRUCTIONS");
+                    }
+
+                    //In Settings Screen - Delete High Score
+                    if (titlebuttons ==6 && event.getY() > getHeight()/2-100 && event.getY() < getHeight()/2+100){
+                        highscore = 0;
+                        counter = 0;
+                        Log.d(TAG, "High Score RESET");
+                    }
+
 
                     //Return from instruction Screen
                     if (titlebuttons ==1 && event.getY() > getHeight()-200 && event.getX() > getWidth()-200){
@@ -246,6 +256,38 @@ public class MainGamePanel extends SurfaceView implements
 
 
                     }
+
+                    //Return from Settings Screen
+                    if (titlebuttons ==6 && event.getY() > getHeight()-200 && event.getX() > getWidth()-200){
+                        paint.setTextSize(64);
+                        titlebuttons = 0;
+                        Log.d(TAG, "SETTINGS SCREEN BACK");
+                    }
+
+                    //Score Screen - RESTART Command
+                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getX() < getWidth()/2-200) {
+
+                        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
+                        // create gate and load bitmap
+                        gate = new Gate("start", BitmapFactory.decodeResource(getResources(), R.drawable.box_start), getWidth()/2, getHeight()-325);
+
+                        //Creating the "buttons"
+                        button = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.button), getWidth()/2, getHeight()-110);
+
+                        titlebuttons = 0;
+                        counter = 1;
+                        Log.d(TAG, "Score Screen RESTART");
+
+                    }
+
+                    //Score Screen - HOME Command
+                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getX() > getWidth()/2+200) {
+                        titlebuttons = 0;
+                        counter = 0;
+                        Log.d(TAG, "Score Screen HOME");
+
+                    }
+
 
                     //WHITE
                     if ((event.getY() > (getHeight() - 300)) && event.getX() < whiteright && event.getX() > whiteleft) {
@@ -274,11 +316,24 @@ public class MainGamePanel extends SurfaceView implements
     }
 
     public void render(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
+
+        //Shutting Down
+        if (titlebuttons == 5){
+            Log.d(TAG, "No More Canvas");
+            thread.setRunning(false);
+            ((Activity) getContext()).finish();
+        }
+
+        //All cases when not being shut down
+        if (titlebuttons != 5){
+            canvas.drawColor(Color.WHITE);
+        }
+        //HOME SCREEN
         if (counter ==0 && titlebuttons == 0){
             startbutton.draw(canvas);
             canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2-300, paint);
             canvas.drawText("Tap Here for Instructions", getWidth()/2, getHeight()/2+250, paint);
+            canvas.drawText("Settings", getWidth()/2, getHeight()/2+350, paint);
 
         }
         //Instruction Screen
@@ -294,13 +349,42 @@ public class MainGamePanel extends SurfaceView implements
             canvas.drawText("Tap PURPLE to go back and play!", getWidth()/2, getHeight()/2+450, paint);
             backbutton.draw(canvas);
         }
-        if (counter >=1){
+        //GAME SCREEN
+        if (counter >=1 && titlebuttons == 0){
             button.draw(canvas);
             gate.draw(canvas);
             droid.draw(canvas);
 
             canvas.drawText("" +score, getWidth()/2+225, getHeight()-300, paint);
             canvas.drawText("" +highscore, getWidth()/2+225, getHeight()-375, paint);
+        }
+        //SCORE SCREEN
+        if (titlebuttons == 2){
+            if (score == 0){
+                canvas.drawText("Oooh, not even a single one", getWidth()/2, getHeight()/2-200, paint);
+                canvas.drawText("Your score was " +score, getWidth()/2, getHeight()/2-100, paint);
+            }
+            if (score == highscore && score != 0) {
+                canvas.drawText("NEW HIGH SCORE!!!", getWidth()/2, getHeight()/2-200, paint);
+                canvas.drawText("Your score was " +score, getWidth()/2, getHeight()/2-100, paint);
+            }
+            if (score != 0 && score < highscore) {
+                canvas.drawText("Good Run!", getWidth()/2, getHeight()/2-200, paint);
+                canvas.drawText("Your score was " +score, getWidth()/2, getHeight()/2-100, paint);
+            }
+            canvas.drawText("RESTART", getWidth()/2-250, getHeight()/2+300, paint); //Need to make a button
+            canvas.drawText("HOME", getWidth()/2+250, getHeight()/2+300, paint); //need to make a button
+
+        }
+
+        //SETTINGS SCREEN
+        if (titlebuttons == 6){
+            canvas.drawText("Reset High Score", getWidth()/2, getHeight()/2, paint);
+            backbutton.draw(canvas);
+            if (highscore == 0){
+                canvas.drawText("High Score is 0", getWidth()/2, getHeight()/2+100, paint);
+            }
+
         }
 
     }
@@ -327,6 +411,7 @@ public class MainGamePanel extends SurfaceView implements
                     editor.putInt("key", highscore);
                     editor.commit();
                 }
+                titlebuttons = 2;
                 counter = 0;
                 level = 4;
                 randomizer = 0;
