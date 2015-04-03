@@ -128,6 +128,9 @@ public class MainGamePanel extends SurfaceView implements
         //50x50 pixels with a gap of 24 pixels
         //That means +-12 from getwidth/2
 
+        //Comments to the right of the getWidth()/2 is what it should be according to how I made the artwork
+        //Yet they aren't...
+
         int blueleft = getWidth()/2 + 225;   //86
         int blueright =  getWidth()/2 + 425; //136
         int yellowright = getWidth()/2+200; //62
