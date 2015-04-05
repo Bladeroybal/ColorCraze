@@ -10,11 +10,11 @@ public class Gate {
 
     private Bitmap bitmap;    // the actual bitmap
     private int x;            // the X coordinate
-    private int y;            // the Y coordinate
+    private float y;            // the Y coordinate
     private String color;
     private int colormatch;
 
-    public Gate(String color, Bitmap bitmap, int x, int y) {
+    public Gate(String color, Bitmap bitmap, int x, float y) {
         this.bitmap = bitmap;
         this.x = x;
         this.y = y;
@@ -72,7 +72,7 @@ public class Gate {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 

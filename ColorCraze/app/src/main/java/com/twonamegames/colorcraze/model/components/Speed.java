@@ -1,5 +1,7 @@
 package com.twonamegames.colorcraze.model.components;
 
+import com.twonamegames.colorcraze.MainGamePanel;
+
 public class Speed {
 
 

@@ -11,14 +11,14 @@ public class Droid {
 
     private Bitmap bitmap;	// the actual bitmap
     private int x;			// the X coordinate
-    private int y;			// the Y coordinate
+    private float y;			// the Y coordinate
     private boolean touched;	// if droid is touched/picked up
     private Speed speed;	// the speed with its directions
     private String color;
     private int colormatch;
 
 
-    public Droid(String color, Bitmap bitmap, int x, int y) {
+    public Droid(String color, Bitmap bitmap, int x, float y) {
         this.bitmap = bitmap;
         this.x = x;
         this.y = y;
@@ -73,7 +73,7 @@ public class Droid {
     public void setX(int x) {
         this.x = x;
     }
-    public int getY() {
+    public float getY() {
         return y;
     }
     public void setY(int y) {

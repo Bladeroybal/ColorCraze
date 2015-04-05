@@ -12,7 +12,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.nfc.Tag;
 import android.support.v4.view.MotionEventCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -65,6 +67,13 @@ public class MainGamePanel extends SurfaceView implements
 
 
     }
+
+    //Changing DIP TO Pixels
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
+    
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -131,14 +140,34 @@ public class MainGamePanel extends SurfaceView implements
         //Comments to the right of the getWidth()/2 is what it should be according to how I made the artwork
         //Yet they aren't...
 
-        int blueleft = getWidth()/2 + 225;   //86
-        int blueright =  getWidth()/2 + 425; //136
-        int yellowright = getWidth()/2+200; //62
-        int yellowleft = getWidth()/2 + 25; //12
-        int redright = getWidth()/2-25; //-12
-        int redleft = getWidth()/2-200; //-62
-        int whiteright = getWidth()/2-225; //-86
-        int whiteleft = getWidth()/2-425; //-136
+//        int blueleft = getWidth()/2 + 225;   //86
+//        int blueright =  getWidth()/2 + 425; //136
+//        int yellowright = getWidth()/2+200; //62
+//        int yellowleft = getWidth()/2 + 25; //12
+//        int redright = getWidth()/2-25; //-12
+//        int redleft = getWidth()/2-200; //-62
+//        int whiteright = getWidth()/2-225; //-86
+//        int whiteleft = getWidth()/2-425; //-136
+
+        //dip version
+        float dipblueleft =  dipToPixels(context, 86) ;   //86
+        float dipblueright =  dipToPixels(context, 136); //136
+        float dipyellowright = dipToPixels(context, 62); //62
+        float dipyellowleft = dipToPixels(context, 12); //12
+        float dipredright = dipToPixels(context, -12); //-12
+        float dipredleft = dipToPixels(context, -62); //-62
+        float dipwhiteright = dipToPixels(context, -86); //-86
+        float dipwhiteleft = dipToPixels(context, -136);
+
+        float blueleft = getWidth()/2 + dipblueleft;   //86
+        float blueright =  getWidth()/2 + dipblueright; //136
+        float yellowright = getWidth()/2+dipyellowright; //62
+        float yellowleft = getWidth()/2 + dipyellowleft; //12
+        float redright = getWidth()/2+dipredright; //-12
+        float redleft = getWidth()/2+dipredleft; //-62
+        float whiteright = getWidth()/2+dipwhiteright; //-86
+        float whiteleft = getWidth()/2+dipwhiteleft; //-136
+
 
         //------------------
 
@@ -215,7 +244,7 @@ public class MainGamePanel extends SurfaceView implements
 
 
                     //CLICK TO BEGIN GAME
-                    if (counter == 0 && event.getX() > (getWidth()/2-100) && event.getX() < (getWidth()/2+100) && event.getY() > (getHeight()/2-100) && event.getY() < (getHeight()/2+100)){
+                    if (counter == 0 && event.getX() > (getWidth()/2-100) && event.getX() < (getWidth()/2+100) && event.getY() > (getHeight()/2+200) && event.getY() < (getHeight()/2+300)){
                         // create droid and load bitmap
                         droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
                         // create gate and load bitmap
@@ -225,10 +254,12 @@ public class MainGamePanel extends SurfaceView implements
                         button = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.button), getWidth()/2, getHeight()-110);
 
                         counter = 1;
+                        speedup = new Speed(0, dipToPixels(context, 5));
+                        droid.setSpeed(speedup);
 
                     }
                     //Go to instruction Screen
-                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+200) && event.getY() < (getHeight()/2+300)){
+                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+300) && event.getY() < (getHeight()/2+400)){
                         paint.setTextSize(48);
                         titlebuttons = 1;
                         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth()-100, getHeight()-100);
@@ -236,7 +267,7 @@ public class MainGamePanel extends SurfaceView implements
                     }
 
                     //Go to Settings
-                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+300) && event.getY() < (getHeight()/2+400)) {
+                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+400) && event.getY() < (getHeight()/2+500)) {
                         paint.setTextSize(48);
                         titlebuttons = 6;
                         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth() - 100, getHeight() - 100);
@@ -268,7 +299,7 @@ public class MainGamePanel extends SurfaceView implements
                     }
 
                     //Score Screen - RESTART Command
-                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getX() < getWidth()/2-200) {
+                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getY() < getHeight()/2+400 && event.getX() < getWidth()/2-200) {
 
                         droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
                         // create gate and load bitmap
@@ -284,7 +315,7 @@ public class MainGamePanel extends SurfaceView implements
                     }
 
                     //Score Screen - HOME Command
-                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getX() > getWidth()/2+200) {
+                    if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getY() < getHeight()/2+400 && event.getX() > getWidth()/2+200) {
                         titlebuttons = 0;
                         counter = 0;
                         Log.d(TAG, "Score Screen HOME");
@@ -334,9 +365,10 @@ public class MainGamePanel extends SurfaceView implements
         //HOME SCREEN
         if (counter ==0 && titlebuttons == 0){
             startbutton.draw(canvas);
-            canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2-300, paint);
-            canvas.drawText("Tap Here for Instructions", getWidth()/2, getHeight()/2+250, paint);
-            canvas.drawText("Settings", getWidth()/2, getHeight()/2+350, paint);
+            canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2-250, paint);
+            canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
+            canvas.drawText("Tap Here for Instructions", getWidth()/2, getHeight()/2+350, paint);
+            canvas.drawText("Settings", getWidth()/2, getHeight()/2+450, paint);
 
         }
         //Instruction Screen
@@ -355,8 +387,8 @@ public class MainGamePanel extends SurfaceView implements
         //GAME SCREEN
         if (counter >=1 && titlebuttons == 0){
             button.draw(canvas);
-            gate.draw(canvas);
             droid.draw(canvas);
+            gate.draw(canvas);
 
             canvas.drawText("" +score, getWidth()/2+225, getHeight()-300, paint);
             canvas.drawText("" +highscore, getWidth()/2+225, getHeight()-375, paint);
@@ -385,7 +417,7 @@ public class MainGamePanel extends SurfaceView implements
             canvas.drawText("Reset High Score", getWidth()/2, getHeight()/2, paint);
             backbutton.draw(canvas);
             if (highscore == 0){
-                canvas.drawText("High Score is 0", getWidth()/2, getHeight()/2+100, paint);
+                canvas.drawText("High Score has been Reset", getWidth()/2, getHeight()/2+100, paint);
             }
 
         }
@@ -399,10 +431,14 @@ public class MainGamePanel extends SurfaceView implements
      */
     public void update() {
 
+        //Board edge
+        //Buttons = 20px wide
+        //Player piece = 30px wide
+
         if (counter >=1){
             score = counter*100-100;
             // check collision with bottom wall if heading down
-            if ((droid.getY() + droid.getBitmap().getHeight()>= getHeight()-260) && (droid.Color() != gate.Color())) {
+            if ((droid.getY() + droid.getBitmap().getHeight()>= getHeight()-275) && (droid.Color() != gate.Color())) {
                 Log.d(TAG, "GAME OVER");
 
                 //Set new High Score
@@ -422,7 +458,7 @@ public class MainGamePanel extends SurfaceView implements
 //                ((Activity)getContext()).finish();
             }
 
-            if ((droid.getY() + droid.getBitmap().getHeight()>= getHeight()-250) && (droid.Color() == gate.Color())) {
+            if ((droid.getY() + droid.getBitmap().getHeight()>= getHeight()-275) && (droid.Color() == gate.Color())) {
                 Log.d(TAG, "passed");
                 counter++;
                 Random r = new Random();
@@ -460,34 +496,46 @@ public class MainGamePanel extends SurfaceView implements
 
             }
             //Updating Speeds
+            float lvl2 = dipToPixels(context, 6);
+            float lvl3 = dipToPixels(context, 7);
+            float lvl4 = dipToPixels(context, 8);
+            float lvl5 = dipToPixels(context, 9);
+            float lvl6 = dipToPixels(context, 10);
+            float lvl7 = dipToPixels(context, 12);
+
             //LEVEL 2
-            if (counter >= 5 && counter < 10){
+            if (counter >= 3 && counter < 10){
                 level = 7;
                 randomizer = 2;
-                speedup = new Speed(0,16);
+                speedup = new Speed(0, lvl2);
                 droid.setSpeed(speedup);
             }
             //LEVEL 3
-            if (counter >= 10 && counter < 18){
+            if (counter >= 10 && counter < 20){
                 level = 10;
                 randomizer = 1;
-                speedup = new Speed(0,19);
+                speedup = new Speed(0,lvl3);
                 droid.setSpeed(speedup);
             }
             //LEVEL 4
-            if (counter >= 18 && counter < 30){
+            if (counter >= 20 && counter < 35){
                 randomizer = 0;
-                speedup = new Speed(0,23);
+                speedup = new Speed(0,lvl4);
                 droid.setSpeed(speedup);
             }
             //LEVEL 5
-            if (counter >= 30 && counter <45){
-                speedup = new Speed(0,26);
+            if (counter >= 35 && counter <50){
+                speedup = new Speed(0,lvl5);
                 droid.setSpeed(speedup);
             }
             //LEVEL 6
-            if (counter >= 45){
-                speedup = new Speed(0,29);
+            if (counter >= 50 && counter <100){
+                speedup = new Speed(0,lvl6);
+                droid.setSpeed(speedup);
+            }
+            //LEVEL 7
+            if (counter >= 100){
+                speedup = new Speed(0,lvl7);
                 droid.setSpeed(speedup);
             }
 
