@@ -23,6 +23,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //Loading
+        MainGamePanel.backpress(0,0);
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // set our MainGamePanel as the View
@@ -41,6 +44,11 @@ public class MainActivity extends Activity {
     protected void onStop() {
         Log.d(TAG, "Stopping...");
         super.onStop();
+    }
+    @Override
+    public void onBackPressed(){
+        Log.d(TAG, "KEY PRESSED: BACK");
+        MainGamePanel.backpress(0, 0);
     }
 
 

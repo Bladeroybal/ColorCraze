@@ -15,10 +15,12 @@ import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.security.Key;
 import java.util.Random;
 
 public class MainGamePanel extends SurfaceView implements
@@ -39,12 +41,12 @@ public class MainGamePanel extends SurfaceView implements
     private Gate backbutton;
     private Speed speedup;
     private Paint paint;
-    int counter;
+    static int counter;
     int level = 4;
     int randomizer;
     int score;
     int highscore = 0;
-    int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions, 2 = Score Page, 3 = startup, 4 Color Map, 5 EXIT, 6 Settings
+    static int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions, 2 = Score Page, 3 = startup, 4 Color Map, 5 EXIT, 6 Settings
     Context context;
 
 
@@ -63,6 +65,8 @@ public class MainGamePanel extends SurfaceView implements
 
         //Using SharedPreferences
        //SharedPreferences prefs;
+        //create start button
+        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()/2);
 
 
 
@@ -73,7 +77,7 @@ public class MainGamePanel extends SurfaceView implements
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
-    
+
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -95,6 +99,8 @@ public class MainGamePanel extends SurfaceView implements
 
         //create start button
         startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()/2);
+        //gif version -- Doesn't Work
+//        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.test2), getWidth()/2, getHeight()/2);
 
         //Title & Score Initializing
         paint = new Paint();
@@ -129,6 +135,31 @@ public class MainGamePanel extends SurfaceView implements
         Log.d(TAG, "Thread was shut down cleanly");
     }
 
+    //Pressing the Back button >2.0
+    public static void backpress(int countback, int titleback){
+        counter = countback;
+        titlebuttons = titleback;
+    }
+
+    //Pressing the Back button
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        Log.d(TAG, "KEY PRESSED: " + keyCode);
+        if ((keyCode == KeyEvent.KEYCODE_BACK && titlebuttons!= 0) || (keyCode == KeyEvent.KEYCODE_BACK && titlebuttons==0 && counter != 0)){
+            counter = 0;
+            titlebuttons = 0;
+            Log.d(TAG, "Back to Menu");
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_BACK && titlebuttons ==0  && counter == 0){
+            titlebuttons = 5;
+            Log.d(TAG, "Back Button QUIT");
+            return true;
+        }
+        return true;
+    }
+
+    //Pressing on the screen
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -359,16 +390,62 @@ public class MainGamePanel extends SurfaceView implements
         }
 
         //All cases when not being shut down
-        if (titlebuttons != 5){
+        if (titlebuttons != 5 && counter ==0){
             canvas.drawColor(Color.WHITE);
         }
+
+        //All cases when not being shut down
+        if (titlebuttons != 5 && counter >= 1){
+            //WHITE
+            if (droid.Color() ==0){
+                canvas.drawColor(Color.WHITE);
+            }
+            //Pastel RED
+            if (droid.Color() ==1){
+                canvas.drawColor(Color.rgb(255,105,97));
+            }
+            //Pastel YELLOW
+            if (droid.Color() ==2){
+                canvas.drawColor(Color.rgb(253,253,150));
+            }
+            //Pastel Blue Background
+            if (droid.Color() ==3){
+                canvas.drawColor(Color.rgb(174,198,207));
+            }
+            //Pastel GREEN
+            if (droid.Color() ==4){
+                canvas.drawColor(Color.rgb(119,190,119));
+            }
+            //PURPLE
+            if (droid.Color() ==5){
+                canvas.drawColor(Color.rgb(177,156,217));
+            }
+            //ORANGE
+            if (droid.Color() ==6){
+                canvas.drawColor(Color.rgb(255,179,71));
+            }
+            //PINK
+            if (droid.Color() ==7){
+                canvas.drawColor(Color.rgb(255,209,220));
+            }
+            //LIGHTYELLOW
+            if (droid.Color() ==8){
+                canvas.drawColor(Color.rgb(250,255,214));
+            }
+            //SKYBLUE
+            if (droid.Color() ==9){
+                canvas.drawColor(Color.rgb(186,247,255));
+            }
+        }
+
         //HOME SCREEN
         if (counter ==0 && titlebuttons == 0){
             startbutton.draw(canvas);
             canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2-250, paint);
             canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
-            canvas.drawText("Tap Here for Instructions", getWidth()/2, getHeight()/2+350, paint);
+            canvas.drawText("Instructions", getWidth()/2, getHeight()/2+350, paint);
             canvas.drawText("Settings", getWidth()/2, getHeight()/2+450, paint);
+
 
         }
         //Instruction Screen
