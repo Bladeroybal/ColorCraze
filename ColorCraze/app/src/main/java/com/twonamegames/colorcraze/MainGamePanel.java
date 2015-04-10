@@ -38,7 +38,11 @@ public class MainGamePanel extends SurfaceView implements
     private static SharedPreferences prefs;
     private Gate button;
     private Gate startbutton;
+    private Gate frame;
     private Gate backbutton;
+    private Gate instructions;
+    private Gate settings;
+    private Gate ad;
     private Speed speedup;
     private Paint paint;
     static int counter;
@@ -46,6 +50,7 @@ public class MainGamePanel extends SurfaceView implements
     int randomizer;
     int score;
     int highscore = 0;
+    boolean tablet = false; //This changes from Phone to Tablet mode
     static int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions, 2 = Score Page, 3 = startup, 4 Color Map, 5 EXIT, 6 Settings
     Context context;
 
@@ -67,6 +72,19 @@ public class MainGamePanel extends SurfaceView implements
        //SharedPreferences prefs;
         //create start button
         startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()/2);
+        frame = new Gate("frame", BitmapFactory.decodeResource(getResources(), R.drawable.frame), getWidth()/2, getHeight()/2);
+        //create instructions button
+        instructions = new Gate("instructions", BitmapFactory.decodeResource(getResources(), R.drawable.instructions), getWidth()*1/3, getHeight()/2);
+        //create settings button
+        settings = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.settings), getWidth()*2/3, getHeight()/2);
+        //create advertisement banner
+        ad = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.purple), getWidth()/2, getHeight()-200);
+
+        //Title & Score Initializing
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(64);
+        paint.setTextAlign(Paint.Align.CENTER);
 
 
 
@@ -93,20 +111,21 @@ public class MainGamePanel extends SurfaceView implements
 
 
         //create loading screen
-        /* complete
 
-         */
+
+        //DIP to Pixel Main Screen
+
 
         //create start button
-        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()/2);
-        //gif version -- Doesn't Work
-//        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.test2), getWidth()/2, getHeight()/2);
-
-        //Title & Score Initializing
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(64);
-        paint.setTextAlign(Paint.Align.CENTER);
+        startbutton = new Gate("play", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()*2/5);
+        //create instructions button
+        instructions = new Gate("instructions", BitmapFactory.decodeResource(getResources(), R.drawable.instructions), getWidth()*1/3, getHeight()/2);
+        //create settings button
+        settings = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.settings), getWidth()*2/3, getHeight()/2);
+        //create advertisement banner
+        ad = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.purple), getWidth()/2, getHeight()-200);
+        //Back Button
+        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth() - 150, getHeight() - 150);
 
         //Load High Score
         SharedPreferences prefs = this.context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
@@ -274,8 +293,31 @@ public class MainGamePanel extends SurfaceView implements
 //                    }
 
 
+                    //WHITE
+                    if ((event.getY() > (getHeight() - 300)) && event.getX() < whiteright && event.getX() > whiteleft) {
+                        gate = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.box_white), getWidth() / 2, getHeight() - 325);
+                        Log.d(TAG, "Creating WHITE Block");
+                    }
+                    //RED
+                    if ((event.getY() > (getHeight() - 300)) && redleft < event.getX() && event.getX() < redright) {
+                        gate = new Gate("red", BitmapFactory.decodeResource(getResources(), R.drawable.box_red), getWidth() / 2, getHeight() - 325);
+                        Log.d(TAG, "Creating RED Block");
+                    }
+                    //BLUE
+                    if ((event.getY() > (getHeight() - 300)) && event.getX() > blueleft && event.getX() < blueright) {
+                        gate = new Gate("blue", BitmapFactory.decodeResource(getResources(), R.drawable.box_blue), getWidth() / 2, getHeight() - 325);
+                        Log.d(TAG, "Creating BLUE Block");
+                    }
+                    //YELLOW
+                    if ((event.getY() > (getHeight() - 300)) && yellowleft < event.getX() && event.getX() < yellowright) {
+                        gate = new Gate("yellow", BitmapFactory.decodeResource(getResources(), R.drawable.box_yellow), getWidth() / 2, getHeight() - 325);
+                        Log.d(TAG, "Creating YELLOW Block");
+                    }
+                }
+                //MENU OPTIONS, ETC.
+                case MotionEvent.ACTION_UP:{
                     //CLICK TO BEGIN GAME
-                    if (counter == 0 && event.getX() > (getWidth()/2-100) && event.getX() < (getWidth()/2+100) && event.getY() > (getHeight()/2+200) && event.getY() < (getHeight()/2+300)){
+                    if (titlebuttons == 0 && counter == 0 && event.getX() > (getWidth()/2-100) && event.getX() < (getWidth()/2+100) && event.getY() > (getHeight()*2/5-100) && event.getY() < (getHeight()*2/5+100)){
                         // create droid and load bitmap
                         droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
                         // create gate and load bitmap
@@ -290,28 +332,40 @@ public class MainGamePanel extends SurfaceView implements
 
                     }
                     //Go to instruction Screen
-                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+300) && event.getY() < (getHeight()/2+400)){
+                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2-100) && event.getY() < (getHeight()/2+100) && event.getX() < (getWidth()*1/3+100)){
                         paint.setTextSize(48);
                         titlebuttons = 1;
-                        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth()-100, getHeight()-100);
+                        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth()-150, getHeight()-150);
                         Log.d(TAG, "MAIN TO INSTRUCTIONS");
                     }
 
                     //Go to Settings
-                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2+400) && event.getY() < (getHeight()/2+500)) {
+                    if (counter == 0 && titlebuttons == 0  && event.getY() > (getHeight()/2-100) && event.getY() < (getHeight()/2+100) && event.getX() > (getWidth()*2/3-100)) {
                         paint.setTextSize(48);
                         titlebuttons = 6;
-                        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth() - 100, getHeight() - 100);
+                        backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth() - 150, getHeight() - 150);
                         Log.d(TAG, "MAIN TO INSTRUCTIONS");
                     }
 
                     //In Settings Screen - Delete High Score
-                    if (titlebuttons ==6 && event.getY() > getHeight()/2-100 && event.getY() < getHeight()/2+100){
+                    if (titlebuttons ==6 && event.getY() > getHeight()/2-350 && event.getY() < getHeight()/2-250){
                         highscore = 0;
                         counter = 0;
                         Log.d(TAG, "High Score RESET");
                     }
 
+                    //In Settings Screen - Change Mode to Tablet/INSANE MODE
+                    if (titlebuttons ==6 && event.getY() > getHeight()/2-250 && event.getY() < getHeight()/2-150){
+                        counter = 0;
+                        tablet = true;
+                        Log.d(TAG, "MODE Changed");
+                    }
+                    //In Settings Screen - Change Mode to Mobile MODE
+                    if (titlebuttons ==6 && event.getY() > getHeight()/2-150 && event.getY() < getHeight()/2-50){
+                        counter = 0;
+                        tablet = false;
+                        Log.d(TAG, "MODE Changed");
+                    }
 
                     //Return from instruction Screen
                     if (titlebuttons ==1 && event.getY() > getHeight()-200 && event.getX() > getWidth()-200){
@@ -353,27 +407,6 @@ public class MainGamePanel extends SurfaceView implements
 
                     }
 
-
-                    //WHITE
-                    if ((event.getY() > (getHeight() - 300)) && event.getX() < whiteright && event.getX() > whiteleft) {
-                        gate = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.box_white), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating WHITE Block");
-                    }
-                    //RED
-                    if ((event.getY() > (getHeight() - 300)) && redleft < event.getX() && event.getX() < redright) {
-                        gate = new Gate("red", BitmapFactory.decodeResource(getResources(), R.drawable.box_red), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating RED Block");
-                    }
-                    //BLUE
-                    if ((event.getY() > (getHeight() - 300)) && event.getX() > blueleft && event.getX() < blueright) {
-                        gate = new Gate("blue", BitmapFactory.decodeResource(getResources(), R.drawable.box_blue), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating BLUE Block");
-                    }
-                    //YELLOW
-                    if ((event.getY() > (getHeight() - 300)) && yellowleft < event.getX() && event.getX() < yellowright) {
-                        gate = new Gate("yellow", BitmapFactory.decodeResource(getResources(), R.drawable.box_yellow), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating YELLOW Block");
-                    }
                 }
             }
         }
@@ -389,12 +422,16 @@ public class MainGamePanel extends SurfaceView implements
             ((Activity) getContext()).finish();
         }
 
-        //All cases when not being shut down
+        //All cases when not being shut down - FRAME
+        if (titlebuttons != 5){
+            frame.draw(canvas);
+        }
+
         if (titlebuttons != 5 && counter ==0){
             canvas.drawColor(Color.WHITE);
         }
 
-        //All cases when not being shut down
+        //Changing background color based on the gate coming down
         if (titlebuttons != 5 && counter >= 1){
             //WHITE
             if (droid.Color() ==0){
@@ -402,49 +439,53 @@ public class MainGamePanel extends SurfaceView implements
             }
             //Pastel RED
             if (droid.Color() ==1){
-                canvas.drawColor(Color.rgb(255,105,97));
+                canvas.drawColor(Color.rgb(246, 206, 213));
             }
             //Pastel YELLOW
             if (droid.Color() ==2){
-                canvas.drawColor(Color.rgb(253,253,150));
+                canvas.drawColor(Color.rgb(255, 253, 193));
             }
             //Pastel Blue Background
             if (droid.Color() ==3){
-                canvas.drawColor(Color.rgb(174,198,207));
+                canvas.drawColor(Color.rgb(112,134,222));
             }
             //Pastel GREEN
             if (droid.Color() ==4){
-                canvas.drawColor(Color.rgb(119,190,119));
+                canvas.drawColor(Color.rgb(170,232,165));
             }
             //PURPLE
             if (droid.Color() ==5){
-                canvas.drawColor(Color.rgb(177,156,217));
+                canvas.drawColor(Color.rgb(233,163,252));
             }
             //ORANGE
             if (droid.Color() ==6){
-                canvas.drawColor(Color.rgb(255,179,71));
+                canvas.drawColor(Color.rgb(251, 172, 116));
             }
             //PINK
             if (droid.Color() ==7){
-                canvas.drawColor(Color.rgb(255,209,220));
+                canvas.drawColor(Color.rgb(255, 211, 231));
             }
             //LIGHTYELLOW
             if (droid.Color() ==8){
-                canvas.drawColor(Color.rgb(250,255,214));
+                canvas.drawColor(Color.rgb(255,255,243));
             }
             //SKYBLUE
             if (droid.Color() ==9){
-                canvas.drawColor(Color.rgb(186,247,255));
+                canvas.drawColor(Color.rgb(198,234,248));
             }
         }
 
         //HOME SCREEN
         if (counter ==0 && titlebuttons == 0){
             startbutton.draw(canvas);
-            canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2-250, paint);
-            canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
-            canvas.drawText("Instructions", getWidth()/2, getHeight()/2+350, paint);
-            canvas.drawText("Settings", getWidth()/2, getHeight()/2+450, paint);
+            settings.draw(canvas);
+            instructions.draw(canvas);
+            ad.draw(canvas);
+            canvas.drawText("COLOR CRAZE", getWidth()/2, 300, paint);
+            canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2+250, paint);
+//            canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
+//            canvas.drawText("Instructions", getWidth()/2, getHeight()/2+350, paint);
+//            canvas.drawText("Settings", getWidth()/2, getHeight()/2+450, paint);
 
 
         }
@@ -467,8 +508,8 @@ public class MainGamePanel extends SurfaceView implements
             droid.draw(canvas);
             gate.draw(canvas);
 
-            canvas.drawText("" +score, getWidth()/2+225, getHeight()-300, paint);
-            canvas.drawText("" +highscore, getWidth()/2+225, getHeight()-375, paint);
+            canvas.drawText("Score: " +score + " High Score: " + highscore, getWidth()/2, 100, paint);
+            //canvas.drawText("" +highscore, getWidth()/2+225, getHeight()-375, paint);
         }
         //SCORE SCREEN
         if (titlebuttons == 2){
@@ -491,10 +532,16 @@ public class MainGamePanel extends SurfaceView implements
 
         //SETTINGS SCREEN
         if (titlebuttons == 6){
-            canvas.drawText("Reset High Score", getWidth()/2, getHeight()/2, paint);
+            canvas.drawText("Reset High Score", getWidth()/2, getHeight()/2-300, paint);
             backbutton.draw(canvas);
             if (highscore == 0){
-                canvas.drawText("High Score has been Reset", getWidth()/2, getHeight()/2+100, paint);
+                canvas.drawText("High Score has been Reset", getWidth()/2, getHeight()/2, paint);
+            }
+            if (tablet == false){
+                canvas.drawText("Mode: Mobile", getWidth()/2, getHeight()/2-200, paint);
+            }
+            if (tablet == true){
+                canvas.drawText("Mode: Tablet/INSANE MOBILE", getWidth()/2, getHeight()/2-100, paint);
             }
 
         }
@@ -573,18 +620,29 @@ public class MainGamePanel extends SurfaceView implements
 
             }
             //Updating Speeds
-            float lvl2 = dipToPixels(context, 6);
+            float lvl2 = dipToPixels(context, 6);//Actually 6 and increment by 1
             float lvl3 = dipToPixels(context, 7);
             float lvl4 = dipToPixels(context, 8);
             float lvl5 = dipToPixels(context, 9);
             float lvl6 = dipToPixels(context, 10);
             float lvl7 = dipToPixels(context, 12);
 
+            //Updating Speeds - Tablet
+            float lvl12 = dipToPixels(context, 12);//Actually 6 and increment by 1
+            float lvl13 = dipToPixels(context, 13);
+            float lvl14 = dipToPixels(context, 14);
+            float lvl15 = dipToPixels(context, 15);
+            float lvl16 = dipToPixels(context, 16);
+            float lvl17 = dipToPixels(context, 17);
+
             //LEVEL 2
             if (counter >= 3 && counter < 10){
                 level = 7;
                 randomizer = 2;
                 speedup = new Speed(0, lvl2);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl12);
+                }
                 droid.setSpeed(speedup);
             }
             //LEVEL 3
@@ -592,27 +650,42 @@ public class MainGamePanel extends SurfaceView implements
                 level = 10;
                 randomizer = 1;
                 speedup = new Speed(0,lvl3);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl13);
+                }
                 droid.setSpeed(speedup);
             }
             //LEVEL 4
             if (counter >= 20 && counter < 35){
                 randomizer = 0;
                 speedup = new Speed(0,lvl4);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl14);
+                }
                 droid.setSpeed(speedup);
             }
             //LEVEL 5
             if (counter >= 35 && counter <50){
                 speedup = new Speed(0,lvl5);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl15);
+                }
                 droid.setSpeed(speedup);
             }
             //LEVEL 6
             if (counter >= 50 && counter <100){
                 speedup = new Speed(0,lvl6);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl16);
+                }
                 droid.setSpeed(speedup);
             }
             //LEVEL 7
             if (counter >= 100){
                 speedup = new Speed(0,lvl7);
+                if (tablet == true){
+                    speedup = new Speed(0,lvl17);
+                }
                 droid.setSpeed(speedup);
             }
 
