@@ -41,8 +41,10 @@ public class MainGamePanel extends SurfaceView implements
     private Gate frame;
     private Gate backbutton;
     private Gate instructions;
+    private Gate instructionscreen;
     private Gate settings;
     private Gate ad;
+    private Gate text;
     private Speed speedup;
     private Paint paint;
     static int counter;
@@ -71,7 +73,7 @@ public class MainGamePanel extends SurfaceView implements
         //Using SharedPreferences
        //SharedPreferences prefs;
         //create start button
-        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()/2);
+        startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.play), getWidth()/2, getHeight()/2);
         frame = new Gate("frame", BitmapFactory.decodeResource(getResources(), R.drawable.frame), getWidth()/2, getHeight()/2);
         //create instructions button
         instructions = new Gate("instructions", BitmapFactory.decodeResource(getResources(), R.drawable.instructions), getWidth()*1/3, getHeight()/2);
@@ -79,6 +81,10 @@ public class MainGamePanel extends SurfaceView implements
         settings = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.settings), getWidth()*2/3, getHeight()/2);
         //create advertisement banner
         ad = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.purple), getWidth()/2, getHeight()-200);
+        //create text logo
+        text = new Gate("textlogo", BitmapFactory.decodeResource(getResources(), R.drawable.textlogo), getWidth()/2, getHeight()*1/5);
+        //create instructionscreen (Instruction screen)
+        instructionscreen = new Gate("instructionscreen", BitmapFactory.decodeResource(getResources(), R.drawable.instructionscreen), getWidth()/2, getHeight()/2);
 
         //Title & Score Initializing
         paint = new Paint();
@@ -114,10 +120,13 @@ public class MainGamePanel extends SurfaceView implements
 
 
         //DIP to Pixel Main Screen
+        //Not needed as of right now
 
 
+        //create text logo
+        text = new Gate("textlogo", BitmapFactory.decodeResource(getResources(), R.drawable.textlogo), getWidth()/2, getHeight()*1/5);
         //create start button
-        startbutton = new Gate("play", BitmapFactory.decodeResource(getResources(), R.drawable.logo), getWidth()/2, getHeight()*2/5);
+        startbutton = new Gate("play", BitmapFactory.decodeResource(getResources(), R.drawable.play), getWidth()/2, getHeight()*2/5);
         //create instructions button
         instructions = new Gate("instructions", BitmapFactory.decodeResource(getResources(), R.drawable.instructions), getWidth()*1/3, getHeight()/2);
         //create settings button
@@ -126,6 +135,11 @@ public class MainGamePanel extends SurfaceView implements
         ad = new Gate("settings", BitmapFactory.decodeResource(getResources(), R.drawable.purple), getWidth()/2, getHeight()-200);
         //Back Button
         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth() - 150, getHeight() - 150);
+        //create instructionscreen (Instruction screen)
+        instructionscreen = new Gate("instructionscreen", BitmapFactory.decodeResource(getResources(), R.drawable.instructionscreen), getWidth()/2, getHeight()/2);
+        //initialize first gate
+        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
+
 
         //Load High Score
         SharedPreferences prefs = this.context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
@@ -368,7 +382,7 @@ public class MainGamePanel extends SurfaceView implements
                     }
 
                     //Return from instruction Screen
-                    if (titlebuttons ==1 && event.getY() > getHeight()-200 && event.getX() > getWidth()-200){
+                    if (titlebuttons ==1 && event.getY() > getHeight()-200 && event.getX() < getWidth()/2+100 && event.getX() > getWidth()/2-100){
                         paint.setTextSize(64);
                         titlebuttons = 0;
                         Log.d(TAG, "INSTRUCTION SCREEN BACK");
@@ -477,11 +491,11 @@ public class MainGamePanel extends SurfaceView implements
 
         //HOME SCREEN
         if (counter ==0 && titlebuttons == 0){
+            text.draw(canvas);
             startbutton.draw(canvas);
             settings.draw(canvas);
             instructions.draw(canvas);
-            ad.draw(canvas);
-            canvas.drawText("COLOR CRAZE", getWidth()/2, 300, paint);
+//            canvas.drawText("COLOR CRAZE", getWidth()/2, 300, paint);
             canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2+250, paint);
 //            canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
 //            canvas.drawText("Instructions", getWidth()/2, getHeight()/2+350, paint);
@@ -492,15 +506,15 @@ public class MainGamePanel extends SurfaceView implements
         //Instruction Screen
         if (titlebuttons == 1){
 
-            canvas.drawText("You have 4 buttons at the bottom to use:", getWidth()/2, getHeight()/2-500, paint);
-            canvas.drawText("White, Red, Yellow, Blue.", getWidth()/2, getHeight()/2-400, paint);
-            canvas.drawText("Tap the buttons to change the color", getWidth()/2, getHeight()/2-300, paint);
-            canvas.drawText("BEFORE it hits the block!", getWidth()/2, getHeight()/2-200, paint);
-            canvas.drawText("You can tap two buttons at the same time!", getWidth()/2, getHeight()/2, paint);
-            canvas.drawText("Learn all the color combos!", getWidth()/2, getHeight()/2+100, paint);
-            canvas.drawText("(Example: Blue + Yellow = Green)", getWidth()/2, getHeight()/2+200, paint);
-            canvas.drawText("Tap PURPLE to go back and play!", getWidth()/2, getHeight()/2+450, paint);
-            backbutton.draw(canvas);
+//            canvas.drawText("You have 4 buttons at the bottom to use:", getWidth()/2, getHeight()/2-500, paint);
+//            canvas.drawText("White, Red, Yellow, Blue.", getWidth()/2, getHeight()/2-400, paint);
+//            canvas.drawText("Tap the buttons to change the color", getWidth()/2, getHeight()/2-300, paint);
+//            canvas.drawText("BEFORE it hits the block!", getWidth()/2, getHeight()/2-200, paint);
+//            canvas.drawText("You can tap two buttons at the same time!", getWidth()/2, getHeight()/2, paint);
+//            canvas.drawText("Learn all the color combos!", getWidth()/2, getHeight()/2+100, paint);
+//            canvas.drawText("(Example: Blue + Yellow = Green)", getWidth()/2, getHeight()/2+200, paint);
+//            canvas.drawText("Tap PURPLE to go back and play!", getWidth()/2, getHeight()/2+450, paint);
+            instructionscreen.draw(canvas);
         }
         //GAME SCREEN
         if (counter >=1 && titlebuttons == 0){
@@ -527,6 +541,7 @@ public class MainGamePanel extends SurfaceView implements
             }
             canvas.drawText("RESTART", getWidth()/2-250, getHeight()/2+300, paint); //Need to make a button
             canvas.drawText("HOME", getWidth()/2+250, getHeight()/2+300, paint); //need to make a button
+            ad.draw(canvas);
 
         }
 
