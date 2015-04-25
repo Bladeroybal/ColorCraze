@@ -3,27 +3,27 @@ Information on the app license.
 
 Key Store Path:
 
-Key Store Password:
+Key Store Password: Pass8sse55ion
 
 Key
 ---
-Alias:
+Alias: AndroidKey
 
-Password:
+Password: Vs8spin
 
-Validity:
+Validity: 25 years
 
 Certificate
 ---
-First and Last Name: Blade ROybal
+First and Last Name: Blade Roybal
 
-Organizational Unit:
+Organizational Unit: Development
 
-Organization:
+Organization: Two Name Games
 
 City or Locality: College Station
 
 State or Province: TX
 
-Country Code (XX): 01
+Country Code (XX): US
 
