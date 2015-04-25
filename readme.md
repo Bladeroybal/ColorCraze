@@ -1,7 +1,7 @@
 Information on the app license.
 ---
 
-Key Store Path:
+Key Store Path: Documents/CC
 
 Key Store Password: Pass8sse55ion
 
