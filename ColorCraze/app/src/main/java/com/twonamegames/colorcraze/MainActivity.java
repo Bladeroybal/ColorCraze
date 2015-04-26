@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-
+//adding these for ads
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 //------------------------------
 //Original before changing found at:
 //http://www.javacodegeeks.com/2011/07/android-game-development-displaying.html
@@ -31,6 +33,11 @@ public class MainActivity extends Activity {
         // set our MainGamePanel as the View
         setContentView(new MainGamePanel(this));
         Log.d(TAG, "View added");
+
+        //This is for ads on bottom of screen
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
