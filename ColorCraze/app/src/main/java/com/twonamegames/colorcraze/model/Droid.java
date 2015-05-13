@@ -1,5 +1,13 @@
 package com.twonamegames.colorcraze.model;
 
+//--------------------------------------------
+//Droid.java is any moving component
+//
+//In other words its just the gates as they slide down the screen.
+//Some code here is worthless. It came when learning speed work
+//and I never changed it.
+//-------------------------------------
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -23,6 +31,8 @@ public class Droid {
         this.x = x;
         this.y = y;
         this.speed = new Speed();
+
+        //Providing int comparison to know if correct color or not when reaching block
 
         if (color.equals("white")){
             colormatch= 0;

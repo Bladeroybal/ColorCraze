@@ -1,4 +1,10 @@
 package com.twonamegames.colorcraze;
+//--------------------------
+//Thread code learned through tutorial.
+//Supposed to be used for proper closing of game that didn't
+//always work. It also have FPS control to prevent laggy
+//gameplay.
+//--------------------------
 
 
 import android.graphics.Canvas;

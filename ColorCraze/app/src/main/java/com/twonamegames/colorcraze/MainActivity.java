@@ -13,6 +13,9 @@ import com.google.android.gms.ads.AdView;
 //------------------------------
 //Original before changing found at:
 //http://www.javacodegeeks.com/2011/07/android-game-development-displaying.html
+//The above link is where I originally learned how to make game basics
+//
+//Below is all altered code to get Color Craze working properly
 //------------------------------
 
 public class MainActivity extends Activity {
@@ -31,20 +34,26 @@ public class MainActivity extends Activity {
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // set our MainGamePanel as the View
-        setContentView(new MainGamePanel(this));
-        Log.d(TAG, "View added");
-
-        //This is for ads on bottom of screen
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        //This if statement calls the advertisement banner located on activity_main.
+        //I think I need a separate intent to call it properly since .advertisement doesn't work since it's static
+        //The else statement is how the game runs
+        if (MainGamePanel.advertisement()==0) {
+            setContentView(R.layout.activity_main);
+            AdView mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+            Log.d(TAG, "Ad loaded");
+        }
+        else {
+            setContentView(new MainGamePanel(this));
+            Log.d(TAG, "View added");
+        }
     }
 
     @Override
     protected void onDestroy() {
         Log.d(TAG, "Destroying...");
         super.onDestroy();
-
     }
 
     @Override

@@ -1,5 +1,12 @@
 package com.twonamegames.colorcraze.model;
 
+//---------------------------------
+//Gate.java is code used to create any static (non-moving) image.
+//
+//It is used in properly places all bitmap images on the screen.
+//including menu buttons and game buttons
+//----------------------------------
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 

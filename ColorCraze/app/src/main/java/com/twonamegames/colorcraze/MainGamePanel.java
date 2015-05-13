@@ -1,5 +1,16 @@
 package com.twonamegames.colorcraze;
 
+//----------------------------------------------------
+// This is the core of the game. All logic of the game
+//functioning overall can be found in this section.
+//
+// It is broken down into several components
+//There is the main branch of logic, all activity based(finger press screen) components,
+// Rendering of each page, and the speed/levels
+//-----------------------------------------------------
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.twonamegames.colorcraze.model.Droid;
 import com.twonamegames.colorcraze.model.Gate;
 import com.twonamegames.colorcraze.model.components.Speed;
@@ -70,8 +81,10 @@ public class MainGamePanel extends SurfaceView implements
         // make the GamePanel focusable so it can handle events
         setFocusable(true);
 
-        //Using SharedPreferences
-       //SharedPreferences prefs;
+        //Below is both here and in SurfaceCreated. That is because for some reason I was getting bugs that would disappear
+        //when I had this code only in both positions. It fixed a lot of alignment issues except one.
+        //The first moving block in the game is always skewed slightly to the left.
+
         //create start button
         startbutton = new Gate("menu", BitmapFactory.decodeResource(getResources(), R.drawable.play), getWidth()/2, getHeight()/2);
         frame = new Gate("frame", BitmapFactory.decodeResource(getResources(), R.drawable.frame), getWidth()/2, getHeight()/2);
@@ -85,6 +98,8 @@ public class MainGamePanel extends SurfaceView implements
         text = new Gate("textlogo", BitmapFactory.decodeResource(getResources(), R.drawable.textlogo), getWidth()/2, getHeight()*1/5);
         //create instructionscreen (Instruction screen)
         instructionscreen = new Gate("instructionscreen", BitmapFactory.decodeResource(getResources(), R.drawable.instructionscreen), getWidth()/2, getHeight()/2);
+        //initialize first gate
+        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
 
         //Title & Score Initializing
         paint = new Paint();
@@ -93,10 +108,15 @@ public class MainGamePanel extends SurfaceView implements
         paint.setTextAlign(Paint.Align.CENTER);
 
 
-
     }
 
+
     //Changing DIP TO Pixels
+    //----------
+    //Android code reads pixels as they are, however not all devices have same amount of pixels or pixel density.
+    //This code converts all pixel calculations below in code to be density independent for every device.
+    //This fixed a previous bug where larger devices couldn't correctly press areas on the screen
+    //------------
     public static float dipToPixels(Context context, float dipValue) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
@@ -117,11 +137,13 @@ public class MainGamePanel extends SurfaceView implements
 
 
         //create loading screen
+        //Would be cool. Not needed though
 
 
         //DIP to Pixel Main Screen
         //Not needed as of right now
 
+        //See statement above on why this is here too
 
         //create text logo
         text = new Gate("textlogo", BitmapFactory.decodeResource(getResources(), R.drawable.textlogo), getWidth()/2, getHeight()*1/5);
@@ -137,8 +159,6 @@ public class MainGamePanel extends SurfaceView implements
         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth() - 150, getHeight() - 150);
         //create instructionscreen (Instruction screen)
         instructionscreen = new Gate("instructionscreen", BitmapFactory.decodeResource(getResources(), R.drawable.instructionscreen), getWidth()/2, getHeight()/2);
-        //initialize first gate
-        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
 
 
         //Load High Score
@@ -168,10 +188,15 @@ public class MainGamePanel extends SurfaceView implements
         Log.d(TAG, "Thread was shut down cleanly");
     }
 
-    //Pressing the Back button >2.0
+    //Pressing the Back button >2.0 version. Rest of code on MainActivity
     public static void backpress(int countback, int titleback){
         counter = countback;
         titlebuttons = titleback;
+    }
+
+    //creating advertisement. Didn't work....
+    public static int advertisement(){
+        return titlebuttons;
     }
 
     //Pressing the Back button
@@ -202,16 +227,6 @@ public class MainGamePanel extends SurfaceView implements
         //That means +-12 from getwidth/2
 
         //Comments to the right of the getWidth()/2 is what it should be according to how I made the artwork
-        //Yet they aren't...
-
-//        int blueleft = getWidth()/2 + 225;   //86
-//        int blueright =  getWidth()/2 + 425; //136
-//        int yellowright = getWidth()/2+200; //62
-//        int yellowleft = getWidth()/2 + 25; //12
-//        int redright = getWidth()/2-25; //-12
-//        int redleft = getWidth()/2-200; //-62
-//        int whiteright = getWidth()/2-225; //-86
-//        int whiteleft = getWidth()/2-425; //-136
 
         //dip version
         float dipblueleft =  dipToPixels(context, 86) ;   //86
@@ -234,8 +249,10 @@ public class MainGamePanel extends SurfaceView implements
 
 
         //------------------
+        //Below is all code for every single finger press on areas of the screen
+        //This selects different colors and different areas of the screen
 
-        //NEW IDEA-----------------------
+        //-----------------------
         //get pointer index from the event object
         int pointerIndex = event.getActionIndex();
 
@@ -427,6 +444,7 @@ public class MainGamePanel extends SurfaceView implements
         return true;
     }
 
+    //This draws everything. These are the different screens in the game
     public void render(Canvas canvas) {
 
         //Shutting Down
@@ -541,7 +559,16 @@ public class MainGamePanel extends SurfaceView implements
             }
             canvas.drawText("RESTART", getWidth()/2-250, getHeight()/2+300, paint); //Need to make a button
             canvas.drawText("HOME", getWidth()/2+250, getHeight()/2+300, paint); //need to make a button
-            ad.draw(canvas);
+//            ad.draw(canvas);
+
+            //advertisement
+            //New Intent to activity_main? Is that the best approach?
+            AdView mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+            Log.d(TAG, "Ad loaded");
+
+
 
         }
 
