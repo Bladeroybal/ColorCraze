@@ -1,0 +1,13 @@
+144
+
+        //Load High Score
+        SharedPreferences prefs = this.context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+        highscore = prefs.getInt("key", 0); //0 is the default value
+        if (highscore >= 5000){
+            //If high score of 5000 is reached unlock CLASSIC color scheme (black background with blocks)
+        }
+        if (highscore >= 10000){
+            //If high score of 10000 is reached unlock GREYSCALE color scheme (white background with greys)
+        }
+        
+
