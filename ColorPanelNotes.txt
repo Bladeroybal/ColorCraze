@@ -1,0 +1,40 @@
+This is a new class to help switch between different color themes
+
+package com.twonamegames.colorcraze.model;
+
+import android.graphics.BitmapFactory;
+
+/**
+ * This will contain all code for changing the color schemes as they unlock
+ * Note changes in Action_Down code in MainGamePanel.java and
+ * the changes in the Main class with SharedPreferences in MainGamePanel.java.
+ * May need to add changes to activity and intent in MainActivity.java
+ */
+public class ColorScheme {
+
+    private int colormode; //colormode allows change of which scheme is being used.
+    String colors;
+    // 0 = normal, 1 = classic mode, 2 = greyscale
+
+    //Current Strategy. Move stuff like
+    //gate = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.box_white), getWidth() / 2, getHeight() - 325);
+    //and in the first field and the R.drawable.box_white call case
+
+    public String SetColorName(int colormode){
+        //These are the strings for comparison
+        if (colormode ==0){
+            //Add all colors
+        }
+        if (colormode ==1){
+            //Add all CLASSIC colors
+        }
+        if (colormode ==2){
+            //Add all GREYSCALE colors
+        }
+        return colors;
+    }
+
+    //How do I call specific drawables? Insert here
+
+
+}
