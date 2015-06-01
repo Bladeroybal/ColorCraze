@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
         //This if statement calls the advertisement banner located on activity_main.
         //I think I need a separate intent to call it properly since .advertisement doesn't work since it's static
         //The else statement is how the game runs
-        if (MainGamePanel.advertisement()==0) {
+        if (MainGamePanel.advertisement()==2) {
             setContentView(R.layout.activity_main);
             AdView mAdView = (AdView) findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();

@@ -16,6 +16,7 @@ import com.twonamegames.colorcraze.model.Gate;
 import com.twonamegames.colorcraze.model.components.Speed;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -99,7 +100,7 @@ public class MainGamePanel extends SurfaceView implements
         //create instructionscreen (Instruction screen)
         instructionscreen = new Gate("instructionscreen", BitmapFactory.decodeResource(getResources(), R.drawable.instructionscreen), getWidth()/2, getHeight()/2);
         //initialize first gate
-        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
+        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), getWidth()/2, 0);
 
         //Title & Score Initializing
         paint = new Paint();
@@ -350,7 +351,7 @@ public class MainGamePanel extends SurfaceView implements
                     //CLICK TO BEGIN GAME
                     if (titlebuttons == 0 && counter == 0 && event.getX() > (getWidth()/2-100) && event.getX() < (getWidth()/2+100) && event.getY() > (getHeight()*2/5-100) && event.getY() < (getHeight()*2/5+100)){
                         // create droid and load bitmap
-                        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
+                        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), getWidth()/2, 0);
                         // create gate and load bitmap
                         gate = new Gate("start", BitmapFactory.decodeResource(getResources(), R.drawable.box_start), getWidth()/2, getHeight()-325);
 
@@ -559,14 +560,16 @@ public class MainGamePanel extends SurfaceView implements
             }
             canvas.drawText("RESTART", getWidth()/2-250, getHeight()/2+300, paint); //Need to make a button
             canvas.drawText("HOME", getWidth()/2+250, getHeight()/2+300, paint); //need to make a button
+
+
 //            ad.draw(canvas);
 
             //advertisement
             //New Intent to activity_main? Is that the best approach?
-            AdView mAdView = (AdView) findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-            Log.d(TAG, "Ad loaded");
+//            AdView mAdView = (AdView) findViewById(R.id.adView);
+//            AdRequest adRequest = new AdRequest.Builder().build();
+//            mAdView.loadAd(adRequest);
+//            Log.d(TAG, "Ad loaded");
 
 
 
