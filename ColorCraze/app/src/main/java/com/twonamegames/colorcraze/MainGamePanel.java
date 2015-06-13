@@ -418,7 +418,7 @@ public class MainGamePanel extends SurfaceView implements
                     //Score Screen - RESTART Command
                     if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getY() < getHeight()/2+400 && event.getX() < getWidth()/2-200) {
 
-                        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), 500, 0);
+                        droid = new Droid("blue", BitmapFactory.decodeResource(getResources(), R.drawable.blue), getWidth()/2, 0);
                         // create gate and load bitmap
                         gate = new Gate("start", BitmapFactory.decodeResource(getResources(), R.drawable.box_start), getWidth()/2, getHeight()-325);
 
@@ -665,12 +665,12 @@ public class MainGamePanel extends SurfaceView implements
 
             }
             //Updating Speeds
-            float lvl2 = dipToPixels(context, 6);//Actually 6 and increment by 1
-            float lvl3 = dipToPixels(context, 7);
-            float lvl4 = dipToPixels(context, 8);
-            float lvl5 = dipToPixels(context, 9);
-            float lvl6 = dipToPixels(context, 10);
-            float lvl7 = dipToPixels(context, 12);
+            float lvl2 = dipToPixels(context, 5);//Actually 6 and increment by 1
+            float lvl3 = dipToPixels(context, 6);
+            float lvl4 = dipToPixels(context, 7);
+            float lvl5 = dipToPixels(context, 8);
+            float lvl6 = dipToPixels(context, 9);
+            float lvl7 = dipToPixels(context, 11);
 
             //Updating Speeds - Tablet
             float lvl12 = dipToPixels(context, 12);//Actually 6 and increment by 1
@@ -680,8 +680,8 @@ public class MainGamePanel extends SurfaceView implements
             float lvl16 = dipToPixels(context, 16);
             float lvl17 = dipToPixels(context, 17);
 
-            //LEVEL 2
-            if (counter >= 3 && counter < 10){
+            //LEVEL 1
+            if (counter >= 0 && counter < 7){
                 level = 7;
                 randomizer = 2;
                 speedup = new Speed(0, lvl2);
@@ -690,8 +690,8 @@ public class MainGamePanel extends SurfaceView implements
                 }
                 droid.setSpeed(speedup);
             }
-            //LEVEL 3
-            if (counter >= 10 && counter < 20){
+            //LEVEL 2
+            if (counter >= 7 && counter < 18){
                 level = 10;
                 randomizer = 1;
                 speedup = new Speed(0,lvl3);
@@ -700,8 +700,8 @@ public class MainGamePanel extends SurfaceView implements
                 }
                 droid.setSpeed(speedup);
             }
-            //LEVEL 4
-            if (counter >= 20 && counter < 35){
+            //LEVEL 3
+            if (counter >= 18 && counter < 35){
                 randomizer = 0;
                 speedup = new Speed(0,lvl4);
                 if (tablet == true){
@@ -709,7 +709,7 @@ public class MainGamePanel extends SurfaceView implements
                 }
                 droid.setSpeed(speedup);
             }
-            //LEVEL 5
+            //LEVEL 4
             if (counter >= 35 && counter <50){
                 speedup = new Speed(0,lvl5);
                 if (tablet == true){
@@ -717,7 +717,7 @@ public class MainGamePanel extends SurfaceView implements
                 }
                 droid.setSpeed(speedup);
             }
-            //LEVEL 6
+            //LEVEL 5
             if (counter >= 50 && counter <100){
                 speedup = new Speed(0,lvl6);
                 if (tablet == true){
@@ -725,7 +725,7 @@ public class MainGamePanel extends SurfaceView implements
                 }
                 droid.setSpeed(speedup);
             }
-            //LEVEL 7
+            //LEVEL 6
             if (counter >= 100){
                 speedup = new Speed(0,lvl7);
                 if (tablet == true){
