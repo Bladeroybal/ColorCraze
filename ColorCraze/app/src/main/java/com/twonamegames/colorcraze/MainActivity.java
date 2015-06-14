@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "ACTIVITY CREATED");
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -49,23 +48,19 @@ public class MainActivity extends Activity {
         super.onStart();
         //Loading
         setContentView(new MainGamePanel(this));
-        Log.d(TAG, "View added");
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "Destroying...");
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "Stopping...");
         super.onStop();
     }
     @Override
     public void onBackPressed(){
-        Log.d(TAG, "KEY PRESSED: BACK");
         MainGamePanel.backpress(0, 0);
     }
 

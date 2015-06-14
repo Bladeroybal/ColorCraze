@@ -174,7 +174,6 @@ public class MainGamePanel extends SurfaceView implements
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "Surface is being destroyed");
 
         titlebuttons = 5;
 //        ((Activity) getContext()).finish();
@@ -189,7 +188,6 @@ public class MainGamePanel extends SurfaceView implements
                 // try again shutting down the thread
             }
         }
-        Log.d(TAG, "Thread was shut down cleanly");
     }
 
     //Pressing the Back button >2.0 version. Rest of code on MainActivity
@@ -204,16 +202,13 @@ public class MainGamePanel extends SurfaceView implements
     //Pressing the Back button
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        Log.d(TAG, "KEY PRESSED: " + keyCode);
         if ((keyCode == KeyEvent.KEYCODE_BACK && titlebuttons!= 0) || (keyCode == KeyEvent.KEYCODE_BACK && titlebuttons==0 && counter != 0)){
             counter = 0;
             titlebuttons = 0;
-            Log.d(TAG, "Back to Menu");
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK && titlebuttons ==0  && counter == 0){
             titlebuttons = 5;
-            Log.d(TAG, "Back Button QUIT");
             return true;
         }
         return true;
@@ -269,7 +264,6 @@ public class MainGamePanel extends SurfaceView implements
         if (event.getPointerCount() > 1) {
             int xPos = (int) MotionEventCompat.getX(event, index);
             int yPos = (int) MotionEventCompat.getY(event, index);
-            //Log.d(TAG, "Multitouch event occurred");
 
             switch (maskedAction) {
                 case MotionEvent.ACTION_POINTER_DOWN: {
@@ -277,37 +271,31 @@ public class MainGamePanel extends SurfaceView implements
                     //GREEN
                     if (xPos > yellowleft && event.getX() > yellowleft && yPos > getHeight()-300) {
                         gate = new Gate("green", BitmapFactory.decodeResource(getResources(), R.drawable.box_green), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating GREEN Block");
                     }
 
                     //PURPLE
                     if ((xPos > blueleft && event.getX() > redleft && event.getX() < redright && yPos > getHeight()-300) || (event.getX() > blueleft && xPos > redleft && xPos < redright && yPos > getHeight()-300)) {
                         gate = new Gate("purple", BitmapFactory.decodeResource(getResources(), R.drawable.box_purple), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating PURPLE Block");
                     }
 
                     //ORANGE
                     if (xPos < blueleft && xPos > redleft && event.getX() < blueleft && event.getX() > redleft && yPos > getHeight()-300) {
                         gate = new Gate("orange", BitmapFactory.decodeResource(getResources(), R.drawable.box_orange), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating ORANGE Block");
                     }
 
                     //PINK
                     if (xPos < redright && event.getX() < redright && yPos > getHeight()-300) {
                         gate = new Gate("pink", BitmapFactory.decodeResource(getResources(), R.drawable.box_pink), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating PINK Block");
                     }
 
                     //LIGHT YELLOW
                     if ((xPos > yellowleft && xPos < yellowright && event.getX() < whiteright && yPos > getHeight()-300) || (event.getX() > yellowleft && event.getX() < yellowright && xPos < whiteright && yPos > getHeight()-300)) {
                         gate = new Gate("lightyellow", BitmapFactory.decodeResource(getResources(), R.drawable.box_lightyellow), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating LIGHT YELLOW Block");
                     }
 
                     //SKY BLUE
                     if ((xPos > blueleft && event.getX() < whiteright && yPos > getHeight()-300) || (event.getX() > blueleft && xPos < whiteright && yPos > getHeight()-300)) {
                         gate = new Gate("skyblue", BitmapFactory.decodeResource(getResources(), R.drawable.box_skyblue), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating SKY BLUE Block");
                     }
                 }
             }
@@ -329,22 +317,18 @@ public class MainGamePanel extends SurfaceView implements
                     //WHITE
                     if ((event.getY() > (getHeight() - 300)) && event.getX() < whiteright && event.getX() > whiteleft) {
                         gate = new Gate("white", BitmapFactory.decodeResource(getResources(), R.drawable.box_white), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating WHITE Block");
                     }
                     //RED
                     if ((event.getY() > (getHeight() - 300)) && redleft < event.getX() && event.getX() < redright) {
                         gate = new Gate("red", BitmapFactory.decodeResource(getResources(), R.drawable.box_red), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating RED Block");
                     }
                     //BLUE
                     if ((event.getY() > (getHeight() - 300)) && event.getX() > blueleft && event.getX() < blueright) {
                         gate = new Gate("blue", BitmapFactory.decodeResource(getResources(), R.drawable.box_blue), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating BLUE Block");
                     }
                     //YELLOW
                     if ((event.getY() > (getHeight() - 300)) && yellowleft < event.getX() && event.getX() < yellowright) {
                         gate = new Gate("yellow", BitmapFactory.decodeResource(getResources(), R.drawable.box_yellow), getWidth() / 2, getHeight() - 325);
-                        Log.d(TAG, "Creating YELLOW Block");
                     }
                 }
                 //MENU OPTIONS, ETC.
@@ -369,7 +353,6 @@ public class MainGamePanel extends SurfaceView implements
                         paint.setTextSize(48);
                         titlebuttons = 1;
                         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth()-150, getHeight()-150);
-                        Log.d(TAG, "MAIN TO INSTRUCTIONS");
                     }
 
                     //Go to Settings
@@ -377,34 +360,29 @@ public class MainGamePanel extends SurfaceView implements
                         paint.setTextSize(48);
                         titlebuttons = 6;
                         backbutton = new Gate("back", BitmapFactory.decodeResource(getResources(), R.drawable.back), getWidth() - 150, getHeight() - 150);
-                        Log.d(TAG, "MAIN TO INSTRUCTIONS");
                     }
 
                     //In Settings Screen - Delete High Score
                     if (titlebuttons ==6 && event.getY() > getHeight()/2-350 && event.getY() < getHeight()/2-250){
                         highscore = 0;
                         counter = 0;
-                        Log.d(TAG, "High Score RESET");
                     }
 
                     //In Settings Screen - Change Mode to Tablet/INSANE MODE
                     if (titlebuttons ==6 && event.getY() > getHeight()/2-250 && event.getY() < getHeight()/2-150){
                         counter = 0;
                         tablet = true;
-                        Log.d(TAG, "MODE Changed");
                     }
                     //In Settings Screen - Change Mode to Mobile MODE
                     if (titlebuttons ==6 && event.getY() > getHeight()/2-150 && event.getY() < getHeight()/2-50){
                         counter = 0;
                         tablet = false;
-                        Log.d(TAG, "MODE Changed");
                     }
 
                     //Return from instruction Screen
                     if (titlebuttons ==1 && event.getY() > getHeight()-200 && event.getX() < getWidth()/2+100 && event.getX() > getWidth()/2-100){
                         paint.setTextSize(64);
                         titlebuttons = 0;
-                        Log.d(TAG, "INSTRUCTION SCREEN BACK");
 
 
                     }
@@ -413,7 +391,6 @@ public class MainGamePanel extends SurfaceView implements
                     if (titlebuttons ==6 && event.getY() > getHeight()-200 && event.getX() > getWidth()-200){
                         paint.setTextSize(64);
                         titlebuttons = 0;
-                        Log.d(TAG, "SETTINGS SCREEN BACK");
                     }
 
                     //Score Screen - RESTART Command
@@ -428,7 +405,6 @@ public class MainGamePanel extends SurfaceView implements
 
                         titlebuttons = 0;
                         counter = 1;
-                        Log.d(TAG, "Score Screen RESTART");
 
                     }
 
@@ -436,7 +412,6 @@ public class MainGamePanel extends SurfaceView implements
                     if (titlebuttons ==2 && event.getY() > getHeight()/2+200 && event.getY() < getHeight()/2+400 && event.getX() > getWidth()/2+200) {
                         titlebuttons = 0;
                         counter = 0;
-                        Log.d(TAG, "Score Screen HOME");
 
                     }
 
@@ -451,7 +426,6 @@ public class MainGamePanel extends SurfaceView implements
 
         //Shutting Down
         if (titlebuttons == 5){
-            Log.d(TAG, "No More Canvas");
             thread.setRunning(false);
             ((Activity) getContext()).finish();
         }
@@ -515,25 +489,12 @@ public class MainGamePanel extends SurfaceView implements
             startbutton.draw(canvas);
             settings.draw(canvas);
             instructions.draw(canvas);
-//            canvas.drawText("COLOR CRAZE", getWidth()/2, 300, paint);
             canvas.drawText("High Score: " + highscore, getWidth()/2, getHeight()/2+250, paint);
-//            canvas.drawText("Play", getWidth()/2, getHeight()/2+250, paint);
-//            canvas.drawText("Instructions", getWidth()/2, getHeight()/2+350, paint);
-//            canvas.drawText("Settings", getWidth()/2, getHeight()/2+450, paint);
 
 
         }
         //Instruction Screen
         if (titlebuttons == 1){
-
-//            canvas.drawText("You have 4 buttons at the bottom to use:", getWidth()/2, getHeight()/2-500, paint);
-//            canvas.drawText("White, Red, Yellow, Blue.", getWidth()/2, getHeight()/2-400, paint);
-//            canvas.drawText("Tap the buttons to change the color", getWidth()/2, getHeight()/2-300, paint);
-//            canvas.drawText("BEFORE it hits the block!", getWidth()/2, getHeight()/2-200, paint);
-//            canvas.drawText("You can tap two buttons at the same time!", getWidth()/2, getHeight()/2, paint);
-//            canvas.drawText("Learn all the color combos!", getWidth()/2, getHeight()/2+100, paint);
-//            canvas.drawText("(Example: Blue + Yellow = Green)", getWidth()/2, getHeight()/2+200, paint);
-//            canvas.drawText("Tap PURPLE to go back and play!", getWidth()/2, getHeight()/2+450, paint);
             instructionscreen.draw(canvas);
         }
         //GAME SCREEN
