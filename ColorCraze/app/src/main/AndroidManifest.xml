@@ -4,7 +4,10 @@
 
     <!-- Include required permissions for Google Mobile Ads to run -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/><!-- Used to request banner and interstitial ads. -->
+
+    <!-- Required permissions for video ads. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -19,16 +22,23 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
+        </activity>
+        <!-- Include the AdActivity configChanges and theme. -->
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <!-- Adding to see if it fixed the problem I made with intent. May be because I
+        accidentally have two AdActivity things -->
+        <activity
+            android:name=".AdActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Include the AdActivity configChanges and theme. -->
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
     </application>
 
 </manifest>

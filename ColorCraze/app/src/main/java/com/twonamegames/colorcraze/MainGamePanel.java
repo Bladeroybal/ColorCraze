@@ -9,8 +9,10 @@ package com.twonamegames.colorcraze;
 // Rendering of each page, and the speed/levels
 //-----------------------------------------------------
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.twonamegames.colorcraze.model.Droid;
 import com.twonamegames.colorcraze.model.Gate;
 import com.twonamegames.colorcraze.model.components.Speed;
@@ -62,6 +64,7 @@ public class MainGamePanel extends SurfaceView implements
     static int counter;
     int level = 4;
     int randomizer;
+    int adcount = 0;
     int score;
     int highscore = 0;
     boolean tablet = false; //This changes from Phone to Tablet mode
@@ -196,9 +199,7 @@ public class MainGamePanel extends SurfaceView implements
     }
 
     //creating advertisement. Didn't work....
-    public static int advertisement(){
-        return titlebuttons;
-    }
+
 
     //Pressing the Back button
     @Override
@@ -562,18 +563,19 @@ public class MainGamePanel extends SurfaceView implements
             canvas.drawText("HOME", getWidth()/2+250, getHeight()/2+300, paint); //need to make a button
 
 
-//            ad.draw(canvas);
-
             //advertisement
-            //New Intent to activity_main? Is that the best approach?
-//            AdView mAdView = (AdView) findViewById(R.id.adView);
-//            AdRequest adRequest = new AdRequest.Builder().build();
-//            mAdView.loadAd(adRequest);
-//            Log.d(TAG, "Ad loaded");
+            if (adcount == 3){
+                //New Intent to activity_main? Is that the best approach?
+                adcount = 0;
+                Intent intent = new Intent(getContext(), AdActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                getContext().startActivity(intent);
 
+            }
 
 
         }
+
 
         //SETTINGS SCREEN
         if (titlebuttons == 6){
@@ -620,6 +622,7 @@ public class MainGamePanel extends SurfaceView implements
                     editor.commit();
                 }
                 titlebuttons = 2;
+                adcount ++;
                 counter = 0;
                 level = 4;
                 randomizer = 0;
