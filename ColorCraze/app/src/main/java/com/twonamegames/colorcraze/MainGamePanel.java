@@ -13,6 +13,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.plus.Plus;
 import com.twonamegames.colorcraze.model.Droid;
 import com.twonamegames.colorcraze.model.Gate;
 import com.twonamegames.colorcraze.model.components.Speed;
@@ -70,6 +73,7 @@ public class MainGamePanel extends SurfaceView implements
     boolean tablet = false; //This changes from Phone to Tablet mode
     static int titlebuttons =0; //To render new pages. 0 = Main, 1 = Instructions, 2 = Score Page, 3 = startup, 4 Color Map, 5 EXIT, 6 Settings
     Context context;
+    GoogleApiClient mGoogleApiClient;
 
 
     public MainGamePanel(Context context) {
@@ -110,6 +114,13 @@ public class MainGamePanel extends SurfaceView implements
         paint.setColor(Color.BLACK);
         paint.setTextSize(64);
         paint.setTextAlign(Paint.Align.CENTER);
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .setAccountName("bladeroybal@gmail.com")
+                .build();
+        mGoogleApiClient.connect();
 
 
     }
@@ -496,6 +507,7 @@ public class MainGamePanel extends SurfaceView implements
         //Instruction Screen
         if (titlebuttons == 1){
             instructionscreen.draw(canvas);
+            Games.Achievements.unlock(mGoogleApiClient, "CgkI-_LMrrYOEAIQAQ");
         }
         //GAME SCREEN
         if (counter >=1 && titlebuttons == 0){
@@ -549,7 +561,8 @@ public class MainGamePanel extends SurfaceView implements
                 canvas.drawText("Mode: Mobile", getWidth()/2, getHeight()/2-200, paint);
             }
             if (tablet == true){
-                canvas.drawText("Mode: Tablet/INSANE MOBILE", getWidth()/2, getHeight()/2-100, paint);
+                canvas.drawText("Mode: Tablet/INSANE MOBILE", getWidth()/2, getHeight() / 2 - 100, paint);
+                Games.Achievements.unlock(mGoogleApiClient, "CgkI-_LMrrYOEAIQAg");
             }
 
         }
@@ -672,6 +685,7 @@ public class MainGamePanel extends SurfaceView implements
                     speedup = new Speed(0,lvl14);
                 }
                 droid.setSpeed(speedup);
+                Games.Achievements.unlock(mGoogleApiClient, "CgkI-_LMrrYOEAIQAw");
             }
             //LEVEL 4
             if (counter >= 35 && counter <50){
@@ -688,6 +702,7 @@ public class MainGamePanel extends SurfaceView implements
                     speedup = new Speed(0,lvl16);
                 }
                 droid.setSpeed(speedup);
+                Games.Achievements.unlock(mGoogleApiClient, "CgkI-_LMrrYOEAIQBA");
             }
             //LEVEL 6
             if (counter >= 100){
@@ -696,6 +711,10 @@ public class MainGamePanel extends SurfaceView implements
                     speedup = new Speed(0,lvl17);
                 }
                 droid.setSpeed(speedup);
+            }
+            //Last achievement
+            if (counter == 150){
+                Games.Achievements.unlock(mGoogleApiClient, "CgkI-_LMrrYOEAIQBQ");
             }
 
             // Update the lone droid
