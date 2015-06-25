@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<View
+		android:id="@+id/center_of_screen"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_centerInParent="true" />
+
+	<Button
+		android:id="@+id/replay_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_above="@id/center_of_screen"
+		android:text="Replay" />
+
+	<Button
+		android:id="@+id/exit_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@id/center_of_screen"
+		android:text="Exit" />
+
+</RelativeLayout>

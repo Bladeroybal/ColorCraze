@@ -1,4 +1,8 @@
 package com.twonamegames.colorcraze;
+
+import android.graphics.Canvas;
+import android.view.SurfaceHolder;
+
 //--------------------------
 //Thread code learned through tutorial.
 //Supposed to be used for proper closing of game that didn't
@@ -6,11 +10,13 @@ package com.twonamegames.colorcraze;
 //gameplay.
 //--------------------------
 
-
-import android.graphics.Canvas;
-import android.util.Log;
-import android.view.SurfaceHolder;
-
+//Casey's Notes
+//
+//	This class will be the main looper which continuously updates the screen. I
+//	think this would be best moved to a static class inside the MainGamePanel so
+//	that we can more directly connect this thread and the game. And semantically,
+//	it keeps code that works together in the same place. Eh, maybe just a package
+//	for the main panel would be good too. I'll figure that out...
 public class MainThread extends Thread {
 
     private static final String TAG = MainThread.class.getSimpleName();
@@ -95,5 +101,4 @@ public class MainThread extends Thread {
             }	// end finally
         }
     }
-
 }

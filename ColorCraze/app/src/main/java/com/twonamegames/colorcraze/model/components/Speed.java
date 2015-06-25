@@ -1,11 +1,8 @@
 package com.twonamegames.colorcraze.model.components;
 
-import com.twonamegames.colorcraze.MainGamePanel;
-
 //--------------------------------------
 //This controls the speed of the gates as they come down the screen
 //---------------------------------------
-
 public class Speed {
 
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<View
+		android:id="@+id/center_of_screen"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_centerInParent="true" />
+
+	<ImageView
+		android:id="@+id/textlogo"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="48dp"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentTop="true"
+		android:src="@drawable/textlogo"/>
+
+	<ImageView
+		android:id="@+id/settings"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_toRightOf="@id/center_of_screen"
+		android:layout_below="@id/center_of_screen"
+		android:src="@drawable/settings"/>
+
+	<ImageView
+		android:id="@+id/help"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_toLeftOf="@id/center_of_screen"
+		android:layout_below="@id/center_of_screen"
+		android:src="@drawable/instructions"/>
+
+	<ImageView
+		android:id="@+id/play"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_above="@id/center_of_screen"
+		android:src="@drawable/play"/>
+
+	<TextView
+		android:id="@+id/high_score"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:layout_below="@+id/help"
+		android:layout_centerHorizontal="true"
+		android:text="High Score: 1200"/>
+</RelativeLayout>

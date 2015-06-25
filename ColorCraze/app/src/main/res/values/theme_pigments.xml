@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<color name="background_pigment">#FFDDDDDD</color>
+
+	<!-- Base colors -->
+	<color name="color1_pigment">#ffffff</color>
+	<color name="color2_pigment">#ed1c24</color>
+	<color name="color3_pigment">#fffb02</color>
+	<color name="color4_pigment">#021ad1</color>
+
+	<!-- Mixed colors -->
+	<color name="color12_pigment">#f6b0b0</color>
+	<color name="color13_pigment">#f8f29f</color>
+	<color name="color14_pigment">#acb0f5</color>
+	<color name="color23_pigment">#ffa50a</color>
+	<color name="color24_pigment">#630460</color>
+	<color name="color34_pigment">#00a651</color>
+
+	<!-- - - - - - - - - Theme Header Section - - - - - - - - -->
+	<style name="Theme.Pigment" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+		<!-- Colors -->
+		<item name="color1">@color/color1_pigment</item>
+		<item name="color2">@color/color2_pigment</item>
+		<item name="color3">@color/color3_pigment</item>
+		<item name="color4">@color/color4_pigment</item>
+		<item name="color12">@color/color12_pigment</item>
+		<item name="color13">@color/color13_pigment</item>
+		<item name="color14">@color/color14_pigment</item>
+		<item name="color23">@color/color23_pigment</item>
+		<item name="color24">@color/color24_pigment</item>
+		<item name="color34">@color/color34_pigment</item>
+
+		<item name="theme_name">Pigment</item>
+	</style>
+</resources>

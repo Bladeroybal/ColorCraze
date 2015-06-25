@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<color name="background_greyscale">#FFDDDDDD</color>
+
+	<!-- Base colors -->
+	<color name="color1_greyscale">#ffffff</color>
+	<color name="color2_greyscale">#aaaaaa</color>
+	<color name="color3_greyscale">#555555</color>
+	<color name="color4_greyscale">#000000</color>
+
+	<!-- Mixed colors -->
+	<color name="color12_greyscale">#d5d5d5</color>
+	<color name="color13_greyscale">#aaaaaa</color>
+	<color name="color14_greyscale">#888888</color>
+	<color name="color23_greyscale">#888888</color>
+	<color name="color24_greyscale">#555555</color>
+	<color name="color34_greyscale">#333333</color>
+
+	<!-- - - - - - - - - Theme Header Section - - - - - - - - -->
+	<style name="Theme.Greyscale" parent="@style/Theme.AppCompat.Light.NoActionBar">
+		<!-- Colors -->
+		<item name="color1">@color/color1_greyscale</item>
+		<item name="color2">@color/color2_greyscale</item>
+		<item name="color3">@color/color3_greyscale</item>
+		<item name="color4">@color/color4_greyscale</item>
+		<item name="color12">@color/color12_greyscale</item>
+		<item name="color13">@color/color13_greyscale</item>
+		<item name="color14">@color/color14_greyscale</item>
+		<item name="color23">@color/color23_greyscale</item>
+		<item name="color24">@color/color24_greyscale</item>
+		<item name="color34">@color/color34_greyscale</item>
+
+		<item name="theme_name">Pigment</item>
+	</style>
+</resources>

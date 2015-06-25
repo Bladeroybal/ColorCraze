@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<attr name="theme_name" format="string" />
+	<attr name="color_background" format="color" />
+
+	<attr name="color1" format="color" />
+	<attr name="color2" format="color" />
+	<attr name="color3" format="color" />
+	<attr name="color4" format="color" />
+	<attr name="color12" format="color" />
+	<attr name="color13" format="color" />
+	<attr name="color14" format="color" />
+	<attr name="color23" format="color" />
+	<attr name="color24" format="color" />
+	<attr name="color34" format="color" />
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+	<declare-styleable name="ButtonBarContainerTheme">
+		<attr name="metaButtonBarStyle" format="reference"/>
+		<attr name="metaButtonBarButtonStyle" format="reference"/>
+	</declare-styleable>
+</resources>
