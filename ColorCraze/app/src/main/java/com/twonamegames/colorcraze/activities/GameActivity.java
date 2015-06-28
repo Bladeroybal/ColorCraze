@@ -6,10 +6,12 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.twonamegames.colorcraze.GameEventListener;
+import com.twonamegames.colorcraze.GameSurface;
 import com.twonamegames.colorcraze.R;
 import com.twonamegames.colorcraze.ThemeUtil;
 
@@ -32,7 +34,7 @@ import com.twonamegames.colorcraze.ThemeUtil;
 //	passing information such as the score, blocks hit, etc. so that we can display
 //	that back to the user and ask what they want to do next. If they replay, they
 //	simply call back to this activity, and everything should be automatically reset.
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements GameEventListener {
 	public static final int flag1=0x1;
 	public static final int flag2=0x2;
 	public static final int flag3=0x4;
@@ -42,7 +44,7 @@ public class GameActivity extends Activity {
 	ImageView button1, button2, button3, button4;
 	ImageView mixer;
 	View root;
-	SurfaceView gamePanel;
+	GameSurface gameSurface;
 	ThemeUtil themeUtil;
 	Context context;
 
@@ -78,10 +80,26 @@ public class GameActivity extends Activity {
 		mixer.setColorFilter(new PorterDuffColorFilter(themeUtil.getColor(flags), PorterDuff.Mode.MULTIPLY));
 
 		root = findViewById(R.id.root);
-		gamePanel = (SurfaceView) findViewById(R.id.gamePanel);
+		gameSurface = (GameSurface) findViewById(R.id.gamePanel);
+		gameSurface.setGameEventListener(this);
+	}
 
-		root.setBackgroundColor(themeUtil.getColorLight(flags));
-		gamePanel.setBackgroundColor(themeUtil.getColorLight(flags));
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if(gameSurface != null) {
+			gameSurface.resume();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if(gameSurface != null) {
+			gameSurface.pause();
+		}
 	}
 
 	private View.OnTouchListener buttonTouchedListener = new View.OnTouchListener() {
@@ -133,8 +151,31 @@ public class GameActivity extends Activity {
 		mixer.invalidate();
 
 		root.setBackgroundColor(themeUtil.getColorLight(flags));
-		gamePanel.setBackgroundColor(themeUtil.getColorLight(flags));
 	}
 
+	//since the GameSurface is running on another thread, these callbacks are also
+	//on another thread. The Android Views must all be drawn on the UI thread of the
+	//app, so we have to explicity tie these back to the UI thread so that we
+	//can do whatever we need to.
+	@Override
+	public void onBlockDestroyed(float progress) {
+		final Context context = this;
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(context, "Block destroyed", Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 
+	@Override
+	public void onBlockFailed() {
+		final Context context = this;
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(context, "Block failed", Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 }

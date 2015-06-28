@@ -5,50 +5,48 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<SurfaceView
+	<com.twonamegames.colorcraze.GameSurface
 		android:id="@+id/gamePanel"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:src="@drawable/gate"
 		android:layout_above="@+id/mixer"/>
 
 	<ImageView
 		android:id="@+id/mixer"
-		android:layout_width="match_parent"
+		android:layout_width="64dp"
 		android:layout_height="64dp"
 		android:src="@drawable/gate"
-		android:layout_above="@+id/buttons_area"/>
+		android:layout_above="@+id/buttons_area"
+		android:layout_centerHorizontal="true"/>
 
+	<!-- TODO: dynamically generate these buttons so that they are spaced exactly evenly across the screen -->
 	<LinearLayout
 		android:id="@+id/buttons_area"
 		android:layout_width="match_parent"
 		android:layout_height="64dp"
 		android:orientation="horizontal"
-		android:layout_alignParentBottom="true"
-		android:weightSum="4">
+		android:gravity="center"
+		android:background="#FFdddddd"
+		android:layout_alignParentBottom="true">
 		<ImageView
 			android:id="@+id/button1"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:src="@drawable/gate"
-			android:layout_weight="1"/>
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/gate" />
 		<ImageView
 			android:id="@+id/button2"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:src="@drawable/gate"
-			android:layout_weight="1"/>
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/gate" />
 		<ImageView
 			android:id="@+id/button3"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:src="@drawable/gate"
-			android:layout_weight="1"/>
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/gate" />
 		<ImageView
 			android:id="@+id/button4"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:src="@drawable/gate"
-			android:layout_weight="1"/>
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:src="@drawable/gate" />
 	</LinearLayout>
 </RelativeLayout>
