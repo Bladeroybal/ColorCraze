@@ -9,6 +9,9 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Calendar;
+import java.util.Random;
+
 public class GameSurface extends SurfaceView implements Runnable {
 //Members
 //------------------------------------------------------------------------------
@@ -21,6 +24,11 @@ public class GameSurface extends SurfaceView implements Runnable {
 
 	float currentPosition;
 	float pointOfFailure;
+
+	ThemeUtil themeUtil;
+	Random random;
+	int blockColor;
+	int selectedColor;
 
 	//Constructors
 //------------------------------------------------------------------------------
@@ -49,6 +57,9 @@ public class GameSurface extends SurfaceView implements Runnable {
 		this.holder = getHolder();
 
 		this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		this.themeUtil = new ThemeUtil(context);
+		random = new Random(Calendar.getInstance().getTimeInMillis());
+		getNextBlockColor();
 	}
 
 	public void setGameEventListener(GameEventListener listener) {
@@ -144,14 +155,14 @@ public class GameSurface extends SurfaceView implements Runnable {
 		updatePosition(canvas);
 
 		clearCanvas(canvas);
-		drawBackground(canvas);
 
 		//choose either block or filled arc by commenting out the other. Could
 		//always draw a Drawable here instead (if so, let's create another method
 		//for that so that we preserve the filled curve and the box).
-//		drawBlock(canvas);
 		drawFilledArc(canvas);
+//		drawBlock(canvas);
 
+		drawMixer(canvas);
 		drawPointOfFailure(canvas);
 
 		checkForEvents(canvas);
@@ -162,7 +173,7 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 * are fired at this time, since the screen does not yet reflect these changes
 	 */
 	public void updatePosition(Canvas canvas) {
-		currentPosition = currentPosition + 5;
+		currentPosition = currentPosition + 15;
 	}
 
 	/**
@@ -170,24 +181,15 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 * dont accidentally show artifacts from the previous frame
 	 */
 	private void clearCanvas(Canvas canvas) {
-		paint.setColor(Color.WHITE);
+		paint.setColor(themeUtil.getColorLight(selectedColor));
 		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
-	}
-
-	/**
-	 * draw the baclground color, which will be the color the user has currently
-	 * selected. We could probably just use the clearCanvas method to draw the
-	 * color instead, but I'll keep this method here until I get that built in
-	 */
-	private void drawBackground(Canvas canvas) {
-
 	}
 
 	/**
 	 * draw a fixed-height block to drop from the top of the screen
 	 */
 	private void drawBlock(Canvas canvas) {
-		paint.setColor(Color.BLUE);
+		paint.setColor(themeUtil.getColor(blockColor));
 		canvas.drawRect(0, currentPosition - canvas.getHeight()*0.2f, canvas.getWidth(), currentPosition, paint);
 	}
 
@@ -202,9 +204,14 @@ public class GameSurface extends SurfaceView implements Runnable {
 		rect.top = currentPosition - canvas.getHeight()*0.1f; //change depth of curve by altering float value
 		rect.bottom = currentPosition;
 
-		paint.setColor(Color.RED);
+		paint.setColor(themeUtil.getColor(blockColor));
 		canvas.drawRect(0, 0, canvas.getWidth(), currentPosition - rect.height()/2, paint);
 		canvas.drawArc(rect, 0, 180, false, paint);
+	}
+
+	private void drawMixer(Canvas canvas) {
+		paint.setColor(themeUtil.getColor(selectedColor));
+		canvas.drawRect(0, pointOfFailure, canvas.getWidth(), canvas.getHeight(), paint);
 	}
 
 	/**
@@ -222,9 +229,28 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 */
 	private void checkForEvents(Canvas canvas) {
 		if(currentPosition >= pointOfFailure) {
-			listener.onBlockFailed();
+			if(selectedColor == blockColor) {
+				listener.onBlockDestroyed(0);
+			}
+			else {
+				listener.onBlockFailed();
+			}
+
 			currentPosition = 0;
+			getNextBlockColor();
 		}
+	}
+
+	private void getNextBlockColor() {
+		int temp = blockColor;
+
+		//ensures that we don't get two blocks of the same color in a row, and
+		//that the color is actually defined
+		while(temp == blockColor || themeUtil.getColor(temp) == themeUtil.defaultColor) {
+			temp = random.nextInt(24);
+		}
+
+		blockColor = temp;
 	}
 
 //Helper methods
@@ -239,5 +265,9 @@ public class GameSurface extends SurfaceView implements Runnable {
 	//will be constant
 	public float dpToPixels(float dp) {
 		return context.getResources().getDisplayMetrics().density * dp;
+	}
+
+	public void setSelectedColor(int colorId) {
+		selectedColor = colorId;
 	}
 }

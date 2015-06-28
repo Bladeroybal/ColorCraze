@@ -41,7 +41,7 @@ import android.graphics.Color;
 public class ThemeUtil {
 	Context context;
 	private int[] themeColors, themeColorsLight;
-	private int defaultColor = Color.WHITE;
+	public int defaultColor = Color.WHITE;
 
 	public ThemeUtil(Context context) {
 		this.context = context;

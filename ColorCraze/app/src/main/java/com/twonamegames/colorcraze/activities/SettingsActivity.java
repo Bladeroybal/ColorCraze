@@ -63,11 +63,11 @@ public class SettingsActivity extends Activity {
 	//Pressing the Back button
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            finish();
+		if (keyCode == KeyEvent.KEYCODE_BACK){
+			finish();
 			overridePendingTransition(0, 0);
 			return true;
-        }
+		}
 		else {
 			return false;
 		}

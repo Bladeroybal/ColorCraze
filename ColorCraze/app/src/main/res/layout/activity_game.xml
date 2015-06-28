@@ -9,15 +9,15 @@
 		android:id="@+id/gamePanel"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_above="@+id/mixer"/>
+		android:layout_above="@+id/buttons_area"/>
 
 	<ImageView
-		android:id="@+id/mixer"
+		android:id="@+id/pause_button"
 		android:layout_width="64dp"
 		android:layout_height="64dp"
-		android:src="@drawable/gate"
-		android:layout_above="@+id/buttons_area"
-		android:layout_centerHorizontal="true"/>
+		android:src="@drawable/settings"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"/>
 
 	<!-- TODO: dynamically generate these buttons so that they are spaced exactly evenly across the screen -->
 	<LinearLayout

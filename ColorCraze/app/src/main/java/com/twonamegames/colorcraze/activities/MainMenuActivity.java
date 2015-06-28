@@ -58,7 +58,7 @@ public class MainMenuActivity extends Activity {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(context, GameEndActivity.class));
+				startActivity(new Intent(context, GameActivity.class));
 				overridePendingTransition(0, 0);
 				finish();
 			}

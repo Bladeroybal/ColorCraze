@@ -2,9 +2,11 @@ package com.twonamegames.colorcraze.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,8 +44,6 @@ public class GameActivity extends Activity implements GameEventListener {
 
 	int flags;
 	ImageView button1, button2, button3, button4;
-	ImageView mixer;
-	View root;
 	GameSurface gameSurface;
 	ThemeUtil themeUtil;
 	Context context;
@@ -76,10 +76,15 @@ public class GameActivity extends Activity implements GameEventListener {
 		button4.setOnTouchListener(buttonTouchedListener);
 
 		//set initial color of mixer and background, to ensure it initializes as we expect
-		mixer = (ImageView) findViewById(R.id.mixer);
-		mixer.setColorFilter(new PorterDuffColorFilter(themeUtil.getColor(flags), PorterDuff.Mode.MULTIPLY));
+		findViewById(R.id.pause_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(context, GameEndActivity.class));
+				overridePendingTransition(0, 0);
+				finish();
+			}
+		});
 
-		root = findViewById(R.id.root);
 		gameSurface = (GameSurface) findViewById(R.id.gamePanel);
 		gameSurface.setGameEventListener(this);
 	}
@@ -141,16 +146,16 @@ public class GameActivity extends Activity implements GameEventListener {
 				}
 			}
 
-			updateMixer();
+			gameSurface.setSelectedColor(flags);
+
 			return true;
 		}
 	};
 
-	public void updateMixer() {
-		mixer.setColorFilter(new PorterDuffColorFilter(themeUtil.getColor(flags), PorterDuff.Mode.MULTIPLY));
-		mixer.invalidate();
-
-		root.setBackgroundColor(themeUtil.getColorLight(flags));
+	//Pressing the Back button
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		return (keyCode == KeyEvent.KEYCODE_BACK);
 	}
 
 	//since the GameSurface is running on another thread, these callbacks are also
