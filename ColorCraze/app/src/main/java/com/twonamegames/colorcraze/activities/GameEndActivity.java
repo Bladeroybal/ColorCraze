@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.twonamegames.colorcraze.R;
+import com.twonamegames.colorcraze.game.GameMode;
 
 //Casey's Notes
 //
@@ -18,6 +20,7 @@ import com.twonamegames.colorcraze.R;
 public class GameEndActivity extends Activity {
 	Context context;
 
+	TextView level, blocksDestroyed,  score;
 	Button replayButton;
 	Button exitButton;
 
@@ -49,5 +52,16 @@ public class GameEndActivity extends Activity {
 				finish();
 			}
 		});
+
+		Bundle bundle = getIntent().getExtras();
+
+		level = (TextView) findViewById(R.id.level);
+		level.setText("Level " + bundle.getInt(GameMode.LEVEL));
+
+		blocksDestroyed = (TextView) findViewById(R.id.blocks_destroyed);
+		blocksDestroyed.setText("Blocks Destroyed: " + bundle.getInt(GameMode.BLOCKS_DESTROYED));
+
+		score = (TextView) findViewById(R.id.score);
+		score.setText("Score: " + bundle.getInt(GameMode.SCORE));
 	}
 }

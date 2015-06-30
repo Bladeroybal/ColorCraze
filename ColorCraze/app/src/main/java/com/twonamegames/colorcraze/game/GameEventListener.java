@@ -1,4 +1,4 @@
-package com.twonamegames.colorcraze;
+package com.twonamegames.colorcraze.game;
 
 public interface GameEventListener {
 	/**
@@ -12,4 +12,12 @@ public interface GameEventListener {
 	 * Called whenever a block hits the point of failure before being destroyed
 	 */
 	public void onBlockFailed();
+
+
+
+	public void onSpeedChanged(float newSpeed);
+
+	public void onGameStart();
+	public void onGamePaused();
+	public void onGameFinished();
 }

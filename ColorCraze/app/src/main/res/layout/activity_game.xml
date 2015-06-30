@@ -5,11 +5,32 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<com.twonamegames.colorcraze.GameSurface
+	<com.twonamegames.colorcraze.game.GameSurface
 		android:id="@+id/gamePanel"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_above="@+id/buttons_area"/>
+
+	<TextView
+		android:id="@+id/level"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"/>
+
+	<TextView
+		android:id="@+id/blocks_destroyed"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/level"
+		android:layout_centerHorizontal="true"/>
+
+	<TextView
+		android:id="@+id/score"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/blocks_destroyed"
+		android:layout_centerHorizontal="true"/>
 
 	<ImageView
 		android:id="@+id/pause_button"

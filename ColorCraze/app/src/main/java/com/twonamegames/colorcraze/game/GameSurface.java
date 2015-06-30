@@ -1,4 +1,4 @@
-package com.twonamegames.colorcraze;
+package com.twonamegames.colorcraze.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,8 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.twonamegames.colorcraze.ThemeHelper;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -25,10 +28,11 @@ public class GameSurface extends SurfaceView implements Runnable {
 	float currentPosition;
 	float pointOfFailure;
 
-	ThemeUtil themeUtil;
+	ThemeHelper themeHelper;
 	Random random;
 	int blockColor;
 	int selectedColor;
+	float speed;
 
 	//Constructors
 //------------------------------------------------------------------------------
@@ -57,9 +61,10 @@ public class GameSurface extends SurfaceView implements Runnable {
 		this.holder = getHolder();
 
 		this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		this.themeUtil = new ThemeUtil(context);
+		this.themeHelper = new ThemeHelper(context);
 		random = new Random(Calendar.getInstance().getTimeInMillis());
 		getNextBlockColor();
+		speed = 1.0f;
 	}
 
 	public void setGameEventListener(GameEventListener listener) {
@@ -173,7 +178,10 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 * are fired at this time, since the screen does not yet reflect these changes
 	 */
 	public void updatePosition(Canvas canvas) {
-		currentPosition = currentPosition + 15;
+		float dy = (speed)*(0.01f)*(canvas.getHeight());
+		currentPosition = currentPosition + dy;
+
+		Log.i("GmaeSurface", "%" + dy / canvas.getHeight());
 	}
 
 	/**
@@ -181,7 +189,7 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 * dont accidentally show artifacts from the previous frame
 	 */
 	private void clearCanvas(Canvas canvas) {
-		paint.setColor(themeUtil.getColorLight(selectedColor));
+		paint.setColor(themeHelper.getColorLight(selectedColor));
 		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
 	}
 
@@ -189,7 +197,7 @@ public class GameSurface extends SurfaceView implements Runnable {
 	 * draw a fixed-height block to drop from the top of the screen
 	 */
 	private void drawBlock(Canvas canvas) {
-		paint.setColor(themeUtil.getColor(blockColor));
+		paint.setColor(themeHelper.getColor(blockColor));
 		canvas.drawRect(0, currentPosition - canvas.getHeight()*0.2f, canvas.getWidth(), currentPosition, paint);
 	}
 
@@ -204,13 +212,13 @@ public class GameSurface extends SurfaceView implements Runnable {
 		rect.top = currentPosition - canvas.getHeight()*0.1f; //change depth of curve by altering float value
 		rect.bottom = currentPosition;
 
-		paint.setColor(themeUtil.getColor(blockColor));
+		paint.setColor(themeHelper.getColor(blockColor));
 		canvas.drawRect(0, 0, canvas.getWidth(), currentPosition - rect.height()/2, paint);
 		canvas.drawArc(rect, 0, 180, false, paint);
 	}
 
 	private void drawMixer(Canvas canvas) {
-		paint.setColor(themeUtil.getColor(selectedColor));
+		paint.setColor(themeHelper.getColor(selectedColor));
 		canvas.drawRect(0, pointOfFailure, canvas.getWidth(), canvas.getHeight(), paint);
 	}
 
@@ -246,7 +254,7 @@ public class GameSurface extends SurfaceView implements Runnable {
 
 		//ensures that we don't get two blocks of the same color in a row, and
 		//that the color is actually defined
-		while(temp == blockColor || themeUtil.getColor(temp) == themeUtil.defaultColor) {
+		while(temp == blockColor || themeHelper.getColor(temp) == themeHelper.defaultColor) {
 			temp = random.nextInt(24);
 		}
 
@@ -269,5 +277,14 @@ public class GameSurface extends SurfaceView implements Runnable {
 
 	public void setSelectedColor(int colorId) {
 		selectedColor = colorId;
+	}
+
+	/**
+	 * Set speed as a multiplier, where 1x = 1% of the screen per frame, 2x = 2%, etc.
+	 *
+	 * @param speed
+	 */
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 }

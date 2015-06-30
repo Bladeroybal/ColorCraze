@@ -6,7 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 
 /**
- * ThemeUtil is a class that helps us with all the colors and themes of the game.
+ * ThemeHelper is a class that helps us with all the colors and themes of the game.
  * To most easily and quickly access the colors at runtime, we treat the four
  * primary colors as four bits which can be either ON or OFF. Touching down on
  * the button during the game sets that color's particular bit to ON, and lifting
@@ -38,12 +38,12 @@ import android.graphics.Color;
  *		an array. And since each color is a single integer, we can store all the
  *		games active color information in just a few words in memory.
  */
-public class ThemeUtil {
+public class ThemeHelper {
 	Context context;
 	private int[] themeColors, themeColorsLight;
 	public int defaultColor = Color.WHITE;
 
-	public ThemeUtil(Context context) {
+	public ThemeHelper(Context context) {
 		this.context = context;
 
 		themeColors = new int[16];
